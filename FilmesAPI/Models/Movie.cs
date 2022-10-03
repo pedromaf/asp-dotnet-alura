@@ -5,6 +5,8 @@ namespace FilmesAPI.Models
 {
     public class Movie
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = Messages.MOVIE_NAME_REQUIRED)]
         [StringLength(100, ErrorMessage = Messages.MOVIE_NAME_TOO_LONG)]
         public string Name { get; set; }
