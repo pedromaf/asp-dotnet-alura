@@ -5,6 +5,8 @@ namespace FilmesAPI.Models
 {
     public class Movie
     {
+        [Key]
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = Messages.MOVIE_NAME_REQUIRED)]
