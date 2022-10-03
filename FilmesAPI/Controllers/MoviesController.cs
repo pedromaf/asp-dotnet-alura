@@ -1,4 +1,5 @@
 ﻿using System;
+using FilmesAPI.Controllers;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,27 +13,33 @@ namespace FilmesAPI.Controllers
         public static int MovieId = 0;
         public static List<Movie> MoviesList = new List<Movie>();
 
-
         [HttpPost]
-        public void CreateMovie([FromBody] Movie movie)
+        public IActionResult CreateMovie([FromBody] Movie movie)
         {
             movie.Id = MovieId++;
             
             MoviesList.Add(movie);
+
+            return CreatedAtAction(nameof(GetMovieById), new { Id = movie.Id }, movie);
         }
 
         [HttpGet]
-        public IEnumerable<Movie> GetAllMovies()
+        public IActionResult GetAllMovies()
         {
-            return MoviesList;
+            return Ok(MoviesList);
         }
 
         [HttpGet("{Id}")]
-        public Movie GetMovieById(int Id)
+        public IActionResult GetMovieById(int Id)
         {
             Movie requestedMovie = MoviesList.FirstOrDefault(movie => movie.Id == Id);
 
-            return requestedMovie;
+            if(requestedMovie != null)
+            {
+                return Ok(requestedMovie);
+            }
+
+            return NotFound();
         }
     }
 }
