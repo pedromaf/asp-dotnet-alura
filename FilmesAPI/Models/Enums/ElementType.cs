@@ -2,6 +2,7 @@
 {
     public enum ElementType
     {
-        MOVIE
+        MOVIE,
+        ADDRESS
     }
 }

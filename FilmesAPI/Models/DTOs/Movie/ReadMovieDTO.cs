@@ -1,7 +1,7 @@
 ﻿using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace FilmesAPI.Models.DTOs
+namespace FilmesAPI.Models.DTOs.Movie
 {
     public class ReadMovieDTO
     {

@@ -16,6 +16,8 @@ namespace FilmesAPI.Exceptions
             {
                 case ElementType.MOVIE:
                     return Messages.MOVIE_NOT_FOUND;
+                case ElementType.ADDRESS:
+                    return Messages.ADDRESS_NOT_FOUND;
                 default:
                     return Messages.ELEMENT_NOT_FOUND;
             }

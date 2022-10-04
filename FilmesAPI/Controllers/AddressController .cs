@@ -4,7 +4,7 @@ using AutoMapper;
 using FilmesAPI.Controllers;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs.Movie;
+using FilmesAPI.Models.DTOs.Address;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,53 +14,40 @@ namespace FilmesAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MoviesController : ControllerBase
+    public class AddressController : ControllerBase
     {
         private FilmesContext _DbContext;
-        private MoviesService _movieService;
+        private AddressService _addressService;
         private IMapper _mapper;
 
-        public MoviesController(FilmesContext context, IMapper mapper)
+        public AddressController(FilmesContext context, IMapper mapper)
         {
             _DbContext = context;
             _mapper = mapper;
-            _movieService = new MoviesService(_DbContext, mapper);
+            _addressService = new AddressService(_DbContext, mapper);
         }
 
         [HttpPost]
-        public IActionResult CreateMovie([FromBody] MovieDTO movieDTO)
+        public IActionResult CreateAddress([FromBody] AddressDTO addressDTO)
         {
             try
             {
-                Movie movie = _movieService.Create(movieDTO);
+                Address address = _addressService.Create(addressDTO);
 
-                return CreatedAtAction(nameof(GetMovieById), new { Id = movie.Id }, movie);
+                return CreatedAtAction(nameof(GetAddressById), new { Id = address.Id }, address);
             } 
             catch(DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
             catch(DbUpdateException exc) { return GetErrorResult(exc); }
         }
 
-        [HttpGet]
-        public IActionResult GetAllMovies()
-        {
-            try
-            {
-                List<Movie> moviesList = _movieService.GetMoviesList();
-
-                return Ok(moviesList);
-            }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
-        }
-
         [HttpGet("{id}")]
-        public IActionResult GetMovieById(int Id)
+        public IActionResult GetAddressById(int Id)
         {
             try
             {
-                ReadMovieDTO requestedMovie = _movieService.GetMovieById(Id);
+                ReadAddressDTO requestedAddress = _addressService.GetAddressById(Id);
             
-                return Ok(requestedMovie);
+                return Ok(requestedAddress);
             }
             catch(ElementNotFoundException exc) { return GetErrorResult(exc); }
             catch(ArgumentNullException exc) { return GetErrorResult(exc); }
@@ -68,13 +55,13 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMovie(int Id, [FromBody] MovieDTO movie)
+        public IActionResult UpdateAddress(int Id, [FromBody] AddressDTO address)
         {
             try
             {
-                Movie updatedMovie = _movieService.Update(Id, movie);
+                Address updatedAddress = _addressService.Update(Id, address);
 
-                return Ok(updatedMovie);
+                return Ok(updatedAddress);
             }
             catch (DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
             catch (DbUpdateException exc) { return GetErrorResult(exc); }
@@ -84,11 +71,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteMovie(int id)
+        public IActionResult DeleteAddress(int id)
         {
             try
             {
-                _movieService.Delete(id);
+                _addressService.Delete(id);
 
                 return NoContent();
             }

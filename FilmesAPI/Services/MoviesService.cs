@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs;
+using FilmesAPI.Models.DTOs.Movie;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
 using Microsoft.EntityFrameworkCore;
