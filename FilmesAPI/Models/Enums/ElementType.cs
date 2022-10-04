@@ -3,6 +3,7 @@
     public enum ElementType
     {
         MOVIE,
-        ADDRESS
+        ADDRESS,
+        MOVIETHEATER
     }
 }

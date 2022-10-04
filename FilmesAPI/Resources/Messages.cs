@@ -18,6 +18,7 @@
         internal const string ELEMENT_NOT_FOUND = "The requested element doesn't exist.";
         internal const string MOVIE_NOT_FOUND = "The requested movie doesn't exist.";
         internal const string ADDRESS_NOT_FOUND = "The requested address doesn't exist.";
+        internal const string MOVIETHEATER_NOT_FOUND = "The requested movie theater doesn't exist.";
 
         // Address attributes.
         internal const string ADDRESS_CITY_REQUIRED = "The address city can't be empty.";
@@ -29,5 +30,9 @@
         internal const string ADDRESS_DISTRICT_TOO_LONG = "The address district is too long.";
         internal const string ADDRESS_STREET_TOO_LONG = "The address street is too long.";
         internal const string ADDRESS_NUMBER_OUTOFRANGE = "The address number is out of range.";
+
+        // MovieTheater attributes.
+        internal const string MOVIETHEATER_NAME_REQUIRED = "The movie theater name can't be empty.";
+        internal const string MOVIETHEATER_NAME_TOO_LONG = "The movie theater name is too long.";
     }
 }
