@@ -1,4 +1,5 @@
 ﻿using FilmesAPI.Resources;
+using FilmesAPI.Models.Enums;
 
 namespace FilmesAPI.Exceptions
 {
@@ -18,11 +19,6 @@ namespace FilmesAPI.Exceptions
                 default:
                     return Messages.ELEMENT_NOT_FOUND;
             }
-        }
-
-        public enum ElementType
-        {
-            MOVIE
         }
     }
 }

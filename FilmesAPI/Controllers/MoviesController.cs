@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Net;
+using AutoMapper;
 using FilmesAPI.Controllers;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models;
+using FilmesAPI.Models.DTOs;
+using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,19 +18,21 @@ namespace FilmesAPI.Controllers
     {
         private FilmesContext _DbContext;
         private MoviesService _movieService;
+        private IMapper _mapper;
 
-        public MoviesController(FilmesContext context)
+        public MoviesController(FilmesContext context, IMapper mapper)
         {
             _DbContext = context;
-            _movieService = new MoviesService(_DbContext);
+            _mapper = mapper;
+            _movieService = new MoviesService(_DbContext, mapper);
         }
 
         [HttpPost]
-        public IActionResult CreateMovie([FromBody] Movie movie)
+        public IActionResult CreateMovie([FromBody] MovieDTO movieDTO)
         {
             try
             {
-                _movieService.Create(movie);
+                Movie movie = _movieService.Create(movieDTO);
 
                 return CreatedAtAction(nameof(GetMovieById), new { Id = movie.Id }, movie);
             } 
@@ -54,7 +58,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                Movie requestedMovie = _movieService.GetMovieById(Id);
+                ReadMovieDTO requestedMovie = _movieService.GetMovieById(Id);
             
                 return Ok(requestedMovie);
             }
@@ -64,7 +68,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMovie(int Id, [FromBody] Movie movie)
+        public IActionResult UpdateMovie(int Id, [FromBody] MovieDTO movie)
         {
             try
             {

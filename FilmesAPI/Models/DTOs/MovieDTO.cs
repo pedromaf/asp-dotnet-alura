@@ -1,18 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FilmesAPI.Resources;
+﻿using FilmesAPI.Resources;
+using System.ComponentModel.DataAnnotations;
 
-namespace FilmesAPI.Models
+namespace FilmesAPI.Models.DTOs
 {
-    public class Movie
+    public class MovieDTO
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
-
         [Required(ErrorMessage = Messages.MOVIE_NAME_REQUIRED)]
         [StringLength(100, ErrorMessage = Messages.MOVIE_NAME_TOO_LONG)]
         public string Name { get; set; }
-        
+
         [Required(ErrorMessage = Messages.MOVIE_DIRECTOR_REQUIRED)]
         [StringLength(100, ErrorMessage = Messages.MOVIE_DIRECTOR_TOO_LONG)]
         public string Director { get; set; }

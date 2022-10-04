@@ -1,6 +1,9 @@
-﻿using FilmesAPI.Data;
+﻿using AutoMapper;
+using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models;
+using FilmesAPI.Models.DTOs;
+using FilmesAPI.Models.Entities;
+using FilmesAPI.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmesAPI.Services
@@ -8,16 +11,22 @@ namespace FilmesAPI.Services
     public class MoviesService
     {
         private FilmesContext _DbContext;
-        
-        public MoviesService(FilmesContext context)
+        private IMapper _mapper;
+
+        public MoviesService(FilmesContext context, IMapper mapper)
         {
             _DbContext = context;
+            _mapper = mapper;
         }
 
-        public void Create(Movie movie)
+        public Movie Create(MovieDTO movieDTO)
         {
+            Movie movie = _mapper.Map<Movie>(movieDTO);
+
             _DbContext.Movies.Add(movie);
             _DbContext.SaveChanges();
+
+            return movie;
         }
 
         public List<Movie> GetMoviesList()
@@ -25,32 +34,30 @@ namespace FilmesAPI.Services
             return _DbContext.Movies.ToList();
         }
 
-        public Movie GetMovieById(int id)
+        public ReadMovieDTO GetMovieById(int id)
         {
             Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
             
             if(movie == null)
             {
-                throw new ElementNotFoundException(ElementNotFoundException.ElementType.MOVIE);
+                throw new ElementNotFoundException(ElementType.MOVIE);
             }
 
-            return movie;
+            ReadMovieDTO movieDTO = _mapper.Map<ReadMovieDTO>(movie);
+
+            return movieDTO;
         }
 
-        public Movie Update(int id, Movie newMovieData)
+        public Movie Update(int id, MovieDTO movieDTO)
         {
             Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
 
             if (movie == null)
             {
-                throw new ElementNotFoundException(ElementNotFoundException.ElementType.MOVIE);
+                throw new ElementNotFoundException(ElementType.MOVIE);
             }
 
-            movie.Name = newMovieData.Name;
-            movie.Director = newMovieData.Director;
-            movie.Genre = newMovieData.Genre;
-            movie.Description = newMovieData.Description;
-            movie.ReleaseDate = newMovieData.ReleaseDate;
+            _mapper.Map(movieDTO, movie);
 
             _DbContext.SaveChanges();
 
@@ -63,7 +70,7 @@ namespace FilmesAPI.Services
 
             if (movie == null)
             {
-                throw new ElementNotFoundException(ElementNotFoundException.ElementType.MOVIE);
+                throw new ElementNotFoundException(ElementType.MOVIE);
             }
 
             _DbContext.Remove(movie);
