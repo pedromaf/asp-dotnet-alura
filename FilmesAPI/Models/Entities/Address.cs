@@ -28,8 +28,6 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.ADDRESS_POSTALCODE_REQUIRED)]
         public int PostalCode { get; set; }
 
-
-
-
+        public MovieTheater MovieTheater { get; set; }
     }
 }

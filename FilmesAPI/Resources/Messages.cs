@@ -33,6 +33,7 @@
 
         // MovieTheater attributes.
         internal const string MOVIETHEATER_NAME_REQUIRED = "The movie theater name can't be empty.";
+        internal const string MOVIETHEATER_ADDRESSID_REQUIRED = "The movie theater address id can't be empty.";
         internal const string MOVIETHEATER_NAME_TOO_LONG = "The movie theater name is too long.";
     }
 }

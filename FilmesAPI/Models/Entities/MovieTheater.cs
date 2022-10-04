@@ -12,6 +12,11 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.MOVIETHEATER_NAME_REQUIRED)]
         [StringLength(50, ErrorMessage = Messages.MOVIETHEATER_NAME_TOO_LONG)]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = Messages.MOVIETHEATER_ADDRESSID_REQUIRED)]
+        public int AddressId { get; set; }
+
+        public Address Address { get; set; }
         
     }
 }
