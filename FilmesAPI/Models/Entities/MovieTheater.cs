@@ -16,7 +16,7 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.MOVIETHEATER_ADDRESSID_REQUIRED)]
         public int AddressId { get; set; }
 
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
         
     }
 }

@@ -4,7 +4,7 @@ using AutoMapper;
 using FilmesAPI.Controllers;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs.Address;
+using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +20,9 @@ namespace FilmesAPI.Controllers
         private AddressService _addressService;
         private IMapper _mapper;
 
-        public AddressController(FilmesContext context, IMapper mapper)
+        public AddressController(AddressService service)
         {
-            _DbContext = context;
-            _mapper = mapper;
-            _addressService = new AddressService(_DbContext, mapper);
+            _addressService = service;
         }
 
         [HttpPost]

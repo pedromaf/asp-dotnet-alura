@@ -4,7 +4,7 @@ using AutoMapper;
 using FilmesAPI.Controllers;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs.Movie;
+using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +16,11 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class MoviesController : ControllerBase
     {
-        private FilmesContext _DbContext;
-        private MoviesService _movieService;
-        private IMapper _mapper;
+        private readonly MoviesService _movieService;
 
-        public MoviesController(FilmesContext context, IMapper mapper)
+        public MoviesController(MoviesService service)
         {
-            _DbContext = context;
-            _mapper = mapper;
-            _movieService = new MoviesService(_DbContext, mapper);
+            _movieService = service;
         }
 
         [HttpPost]

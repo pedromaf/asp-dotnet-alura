@@ -1,6 +1,8 @@
 using FilmesAPI.Data;
+using FilmesAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,11 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Connecting with MySQL database.
-builder.Services.AddDbContext<FilmesContext>(opts => opts.UseMySql(mySQLConnectionString, serverVersion));
+builder.Services.AddDbContext<FilmesContext>(opts => opts.UseLazyLoadingProxies().UseMySql(mySQLConnectionString, serverVersion));
+
+builder.Services.AddScoped<MoviesService>();
+builder.Services.AddScoped<MovieTheaterService>();
+builder.Services.AddScoped<AddressService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -1,7 +1,7 @@
 ﻿using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace FilmesAPI.Models.DTOs.Address
+namespace FilmesAPI.Models.DTOs
 {
     public class AddressDTO
     {

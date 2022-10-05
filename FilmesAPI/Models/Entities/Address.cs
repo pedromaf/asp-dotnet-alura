@@ -1,5 +1,6 @@
 ﻿using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FilmesAPI.Models.Entities
 {
@@ -28,6 +29,7 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.ADDRESS_POSTALCODE_REQUIRED)]
         public int PostalCode { get; set; }
 
-        public MovieTheater MovieTheater { get; set; }
+        [JsonIgnore]
+        public virtual MovieTheater MovieTheater { get; set; }
     }
 }
