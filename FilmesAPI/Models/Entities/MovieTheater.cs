@@ -1,5 +1,6 @@
 ﻿using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FilmesAPI.Models.Entities
 {
@@ -20,6 +21,7 @@ namespace FilmesAPI.Models.Entities
         public int ManagerId { get; set; }
 
         public virtual Address Address { get; set; }
+
         public virtual MTManager Manager { get; set; }
         
     }

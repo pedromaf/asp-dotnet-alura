@@ -13,8 +13,7 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.MANAGER_NAME_REQUIRED)]
         [StringLength(50, ErrorMessage = Messages.MANAGER_NAME_TOO_LONG)]
         public string Name { get; set; }
-       
-        [JsonIgnore]
+
         public virtual List<MovieTheater> MovieTheaters { get; set; }
     }
 }

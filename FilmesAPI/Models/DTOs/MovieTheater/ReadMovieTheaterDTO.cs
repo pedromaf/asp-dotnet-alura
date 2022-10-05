@@ -8,7 +8,7 @@ namespace FilmesAPI.Models.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Address Address { get; set; }
-        public MTManager Manager { get; set; }
+        public object Address { get; set; }
+        public object Manager { get; set; }
     }
 }

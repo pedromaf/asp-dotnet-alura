@@ -50,7 +50,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<MTManager> managersList = _managerService.GetAll();
+                List<ReadMTManagerDTO> managersList = _managerService.GetAll();
 
                 return Ok(managersList);
             }

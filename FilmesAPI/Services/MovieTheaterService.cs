@@ -31,9 +31,17 @@ namespace FilmesAPI.Services
             return newMovie;
         } 
 
-        public List<MovieTheater> GetAll()
+        public List<ReadMovieTheaterDTO> GetAll()
         {
-            return _DbContext.MovieTheaters.ToList();
+            List<MovieTheater> movieTheaterList = _DbContext.MovieTheaters.ToList();
+            List<ReadMovieTheaterDTO> movieTheaterDTOList = new();
+
+            foreach(MovieTheater mt in movieTheaterList)
+            {
+                movieTheaterDTOList.Add(_mapper.Map<ReadMovieTheaterDTO>(mt));
+            }
+
+            return movieTheaterDTOList;
         }
 
         public ReadMovieTheaterDTO GetById(int id)

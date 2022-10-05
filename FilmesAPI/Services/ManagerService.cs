@@ -28,9 +28,17 @@ namespace FilmesAPI.Services
             return newManager;
         }
 
-        public List<MTManager> GetAll()
+        public List<ReadMTManagerDTO> GetAll()
         {
-            return _DbContext.Managers.ToList();
+            List<MTManager> managersList = _DbContext.Managers.ToList();
+            List<ReadMTManagerDTO> managersDTOList = new();
+
+            foreach(MTManager manager in managersList)
+            {
+                managersDTOList.Add(_mapper.Map<ReadMTManagerDTO>(manager));
+            }
+
+            return managersDTOList;
         }
 
         public ReadMTManagerDTO GetById(int id)

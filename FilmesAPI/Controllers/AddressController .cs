@@ -41,7 +41,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<Address> addressesList = _addressService.GetAll();
+                List<ReadAddressDTO> addressesList = _addressService.GetAll();
 
                 return Ok(addressesList);
             }

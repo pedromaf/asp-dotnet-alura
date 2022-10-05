@@ -9,7 +9,13 @@ namespace FilmesAPI.Data.Profiles
         public ManagerProfile()
         {
             CreateMap<MTManagerDTO, MTManager>();
-            CreateMap<MTManager, ReadMTManagerDTO>();
+            CreateMap<MTManager, ReadMTManagerDTO>()
+                .ForMember(managerDTO => managerDTO.MovieTheaters, option => option.MapFrom(
+                    manager => manager.MovieTheaters.Select(mt => new {
+                        mt.Id,
+                        mt.Name,
+                        mt.AddressId
+                    })));
         }
     }
 }

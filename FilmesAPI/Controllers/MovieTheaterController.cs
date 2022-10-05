@@ -38,7 +38,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<MovieTheater> movieTheatersList = _movieTheaterService.GetAll();
+                List<ReadMovieTheaterDTO> movieTheatersList = _movieTheaterService.GetAll();
 
                 return Ok(movieTheatersList);
             }

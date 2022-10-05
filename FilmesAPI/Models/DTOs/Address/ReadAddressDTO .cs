@@ -1,4 +1,5 @@
-﻿using FilmesAPI.Resources;
+﻿using FilmesAPI.Models.Entities;
+using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace FilmesAPI.Models.DTOs
@@ -11,5 +12,6 @@ namespace FilmesAPI.Models.DTOs
         public string Street { get; set; }
         public int Number { get; set; }
         public int PostalCode { get; set; }
+        public object MovieTheater { get; set; }
     }
 }

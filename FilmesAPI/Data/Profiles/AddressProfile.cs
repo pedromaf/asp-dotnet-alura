@@ -9,7 +9,13 @@ namespace FilmesAPI.Data.Profiles
         public AddressProfile()
         {
             CreateMap<AddressDTO, Address>();
-            CreateMap<Address, ReadAddressDTO>();
+            CreateMap<Address, ReadAddressDTO>()
+                .ForMember(dto => dto.MovieTheater, opt => opt.MapFrom(
+                    address => new { 
+                        address.MovieTheater.Id,
+                        address.MovieTheater.Name,
+                        address.MovieTheater.ManagerId
+                    }));
         }
     }
 }

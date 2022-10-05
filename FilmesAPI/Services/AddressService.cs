@@ -29,9 +29,17 @@ namespace FilmesAPI.Services
             return address;
         }
 
-        public List<Address> GetAll()
+        public List<ReadAddressDTO> GetAll()
         {
-            return _DbContext.Address.ToList();
+            List<Address> addressesList = _DbContext.Address.ToList();
+            List<ReadAddressDTO> addressesDTOList = new();
+
+            foreach(Address address in addressesList)
+            {
+                addressesDTOList.Add(_mapper.Map<ReadAddressDTO>(address));
+            }
+
+            return addressesDTOList;
         }
 
         public ReadAddressDTO GetById(int id)
