@@ -36,6 +36,19 @@ namespace FilmesAPI.Controllers
             catch(DbUpdateException exc) { return this.HandleException(exc); }
         }
 
+        [HttpGet]
+        public IActionResult GetAllAddresses()
+        {
+            try
+            {
+                List<Address> addressesList = _addressService.GetAll();
+
+                return Ok(addressesList);
+            }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetAddressById(int Id)
         {

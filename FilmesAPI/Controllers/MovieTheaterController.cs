@@ -30,6 +30,7 @@ namespace FilmesAPI.Controllers
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (ElementBeingUsedException exc) { return this.HandleException(exc); }
         }
 
         [HttpGet]
@@ -71,6 +72,7 @@ namespace FilmesAPI.Controllers
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
             catch (ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch (ElementBeingUsedException exc) { return this.HandleException(exc); }
             catch (ArgumentNullException exc) { return this.HandleException(exc); }
             catch (ArgumentException exc) { return this.HandleException(exc); }
         }

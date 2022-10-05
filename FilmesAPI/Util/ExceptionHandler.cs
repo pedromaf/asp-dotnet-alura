@@ -1,5 +1,6 @@
 ﻿using FilmesAPI.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FilmesAPI.Controllers
 {
@@ -10,7 +11,8 @@ namespace FilmesAPI.Controllers
             return exc switch
             {
                 ElementNotFoundException => controller.NotFound(exc.Message),
-                _ => controller.StatusCode(500, exc.Message)
+                ElementBeingUsedException => controller.StatusCode((int)HttpStatusCode.BadRequest, exc.Message),
+                _ => controller.StatusCode((int)HttpStatusCode.InternalServerError, exc.Message)
             };
         }
     }

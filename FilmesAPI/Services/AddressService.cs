@@ -29,6 +29,11 @@ namespace FilmesAPI.Services
             return address;
         }
 
+        public List<Address> GetAll()
+        {
+            return _DbContext.Address.ToList();
+        }
+
         public ReadAddressDTO GetById(int id)
         {
             Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);

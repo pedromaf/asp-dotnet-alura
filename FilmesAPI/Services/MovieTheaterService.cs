@@ -21,6 +21,8 @@ namespace FilmesAPI.Services
 
         public MovieTheater Create(MovieTheaterDTO movieTheaterDTO)
         {
+            VerifyAddressAvailability(movieTheaterDTO.AddressId);
+
             MovieTheater newMovie = _mapper.Map<MovieTheater>(movieTheaterDTO);
 
             _DbContext.Add(newMovie);
@@ -50,11 +52,17 @@ namespace FilmesAPI.Services
 
         public MovieTheater Update(int id, MovieTheaterDTO movieTheaterDTO)
         {
+
             MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(m => m.Id == id);
 
             if (movieTheater == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIETHEATER);
+            }
+
+            if(movieTheater.AddressId != movieTheaterDTO.AddressId)
+            {
+                VerifyAddressAvailability(movieTheaterDTO.AddressId);
             }
 
             _mapper.Map(movieTheaterDTO, movieTheater);
@@ -75,6 +83,16 @@ namespace FilmesAPI.Services
 
             _DbContext.Remove(movieTheater);
             _DbContext.SaveChanges();
+        }
+
+        private void VerifyAddressAvailability(int addressId)
+        {
+            MovieTheater addressRelatedMovieTheater = _DbContext.MovieTheaters.FirstOrDefault(movieTheater => movieTheater.AddressId == addressId);
+
+            if(addressRelatedMovieTheater != null)
+            {
+                throw new ElementBeingUsedException(ElementType.ADDRESS);
+            }
         }
     }
 }

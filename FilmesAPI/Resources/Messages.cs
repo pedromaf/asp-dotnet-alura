@@ -2,13 +2,6 @@
 {
     public class Messages
     {
-        // Element not found.
-        internal const string ELEMENT_NOT_FOUND = "The requested element doesn't exist.";
-        internal const string MOVIE_NOT_FOUND = "The requested movie doesn't exist.";
-        internal const string ADDRESS_NOT_FOUND = "The requested address doesn't exist.";
-        internal const string MOVIETHEATER_NOT_FOUND = "The requested movie theater doesn't exist.";
-        internal const string MANAGER_NOT_FOUND = "The requested manager doesn't exist.";
-        
         // Movie attributes.
         internal const string MOVIE_NAME_REQUIRED = "The movie name can't be empty.";
         internal const string MOVIE_NAME_TOO_LONG = "The movie name is too long.";
@@ -35,10 +28,22 @@
         // MovieTheater attributes.
         internal const string MOVIETHEATER_NAME_REQUIRED = "The movie theater name can't be empty.";
         internal const string MOVIETHEATER_ADDRESSID_REQUIRED = "The movie theater address id can't be empty.";
+        internal const string MOVIETHEATER_MANAGERID_REQUIRED = "The movie theater manager id can't be empty.";
         internal const string MOVIETHEATER_NAME_TOO_LONG = "The movie theater name is too long.";
 
         // Manager attributes.
         internal const string MANAGER_NAME_REQUIRED = "The manager name can't be empty.";
         internal const string MANAGER_NAME_TOO_LONG = "The manager name is too long.";
+        
+        // Element not found.
+        internal const string ELEMENT_NOT_FOUND = "The requested element doesn't exist.";
+        internal const string MOVIE_NOT_FOUND = "The requested movie doesn't exist.";
+        internal const string ADDRESS_NOT_FOUND = "The requested address doesn't exist.";
+        internal const string MOVIETHEATER_NOT_FOUND = "The requested movie theater doesn't exist.";
+        internal const string MANAGER_NOT_FOUND = "The requested manager doesn't exist.";
+
+        // Element being used.
+        internal const string ELEMENT_BEING_USED = "Element unavailable error. The requested element is already being used.";
+        internal const string ADDRESS_BEING_USED = "Element unavailable error. The requested address is already being used.";
     }
 }
