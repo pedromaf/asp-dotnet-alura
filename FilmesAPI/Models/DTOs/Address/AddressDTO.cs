@@ -23,9 +23,5 @@ namespace FilmesAPI.Models.DTOs
 
         [Required(ErrorMessage = Messages.ADDRESS_POSTALCODE_REQUIRED)]
         public int PostalCode { get; set; }
-
-
-
-
     }
 }

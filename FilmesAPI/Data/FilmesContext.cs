@@ -26,6 +26,6 @@ namespace FilmesAPI.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<MovieTheater> MovieTheaters { get; set; }
-        public DbSet<Manager> Managers { get; set; }
+        public DbSet<MTManager> Managers { get; set; }
     }
 }

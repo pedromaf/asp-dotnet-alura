@@ -1,5 +1,5 @@
 ﻿using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs.Manager;
+using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +19,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateManager([FromBody] ManagerDTO managerDTO)
+        public IActionResult CreateManager([FromBody] MTManagerDTO managerDTO)
         {
             try
             {
-                Manager newManager = _managerService.Create(managerDTO);
+                MTManager newManager = _managerService.Create(managerDTO);
 
                 return CreatedAtAction(nameof(GetManagerById), new { Id = newManager.Id }, newManager);
             }
@@ -36,7 +36,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadManagerDTO readManagerDTO = _managerService.GetById(id);
+                ReadMTManagerDTO readManagerDTO = _managerService.GetById(id);
 
                 return Ok(readManagerDTO);
             }
@@ -50,7 +50,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<Manager> managersList = _managerService.GetAll();
+                List<MTManager> managersList = _managerService.GetAll();
 
                 return Ok(managersList);
             }
@@ -59,11 +59,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateManager(int id, [FromBody] ManagerDTO managerDTO)
+        public IActionResult UpdateManager(int id, [FromBody] MTManagerDTO managerDTO)
         {
             try
             {
-                Manager updatedManager = _managerService.Update(id, managerDTO);
+                MTManager updatedManager = _managerService.Update(id, managerDTO);
 
                 return Ok(updatedManager);
             }

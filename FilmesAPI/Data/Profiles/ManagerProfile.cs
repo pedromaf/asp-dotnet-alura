@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FilmesAPI.Models.DTOs.Manager;
+using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 
 namespace FilmesAPI.Data.Profiles
@@ -8,8 +8,8 @@ namespace FilmesAPI.Data.Profiles
     {
         public ManagerProfile()
         {
-            CreateMap<ManagerDTO, Manager>();
-            CreateMap<Manager, ReadManagerDTO>();
+            CreateMap<MTManagerDTO, MTManager>();
+            CreateMap<MTManager, ReadMTManagerDTO>();
         }
     }
 }

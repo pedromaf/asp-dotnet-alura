@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs.Manager;
+using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
 
@@ -18,9 +18,9 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public Manager Create(ManagerDTO managerDTO)
+        public MTManager Create(MTManagerDTO managerDTO)
         {
-            Manager newManager = _mapper.Map<Manager>(managerDTO);
+            MTManager newManager = _mapper.Map<MTManager>(managerDTO);
 
             _DbContext.Add(newManager);
             _DbContext.SaveChanges();
@@ -28,28 +28,28 @@ namespace FilmesAPI.Services
             return newManager;
         }
 
-        public List<Manager> GetAll()
+        public List<MTManager> GetAll()
         {
             return _DbContext.Managers.ToList();
         }
 
-        public ReadManagerDTO GetById(int id)
+        public ReadMTManagerDTO GetById(int id)
         {
-            Manager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
 
             if(manager == null)
             {
                 throw new ElementNotFoundException(ElementType.MANAGER);
             }
 
-            ReadManagerDTO managerDTO = _mapper.Map<ReadManagerDTO>(manager);
+            ReadMTManagerDTO managerDTO = _mapper.Map<ReadMTManagerDTO>(manager);
 
             return managerDTO;
         }
 
-        public Manager Update(int id, ManagerDTO managerDTO)
+        public MTManager Update(int id, MTManagerDTO managerDTO)
         {
-            Manager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
 
             if(manager == null)
             {
@@ -65,7 +65,7 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            Manager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
 
             if (manager == null)
             {

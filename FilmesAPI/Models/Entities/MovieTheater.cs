@@ -20,7 +20,7 @@ namespace FilmesAPI.Models.Entities
         public int ManagerId { get; set; }
 
         public virtual Address Address { get; set; }
-        public virtual Manager Manager { get; set; }
+        public virtual MTManager Manager { get; set; }
         
     }
 }
