@@ -32,8 +32,8 @@ namespace FilmesAPI.Controllers
 
                 return CreatedAtAction(nameof(GetMovieById), new { Id = movie.Id }, movie);
             } 
-            catch(DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch(DbUpdateException exc) { return GetErrorResult(exc); }
+            catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch(DbUpdateException exc) { return this.HandleException(exc); }
         }
 
         [HttpGet]
@@ -41,12 +41,12 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<Movie> moviesList = _movieService.GetMoviesList();
+                List<Movie> moviesList = _movieService.GetAll();
 
                 return Ok(moviesList);
             }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("{id}")]
@@ -54,13 +54,13 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadMovieDTO requestedMovie = _movieService.GetMovieById(Id);
+                ReadMovieDTO requestedMovie = _movieService.GetById(Id);
             
                 return Ok(requestedMovie);
             }
-            catch(ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch(ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch(ArgumentException exc) { return GetErrorResult(exc); }
+            catch(ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch(ArgumentNullException exc) { return this.HandleException(exc); }
+            catch(ArgumentException exc) { return this.HandleException(exc); }
         }
 
         [HttpPut("{id}")]
@@ -72,11 +72,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(updatedMovie);
             }
-            catch (DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch (DbUpdateException exc) { return GetErrorResult(exc); }
-            catch (ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
+            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
         }
 
         [HttpDelete("{id}")]
@@ -88,22 +88,11 @@ namespace FilmesAPI.Controllers
 
                 return NoContent();
             }
-            catch (DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch (DbUpdateException exc) { return GetErrorResult(exc); }
-            catch (ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
+            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
         }
-
-        private IActionResult GetErrorResult(Exception exc)
-        {
-            switch(exc.GetType().ToString())
-            {
-                case "FilmesAPI.Exceptions.ElementNotFoundException":
-                    return NotFound(exc.Message);
-                default:
-                    return StatusCode(500, exc.Message);
-            }
-        } 
     }
 }

@@ -12,17 +12,14 @@ namespace FilmesAPI.Exceptions
 
         public static string GetErrorMessage(ElementType type)
         {
-            switch(type)
+            return type switch
             {
-                case ElementType.MOVIE:
-                    return Messages.MOVIE_NOT_FOUND;
-                case ElementType.ADDRESS:
-                    return Messages.ADDRESS_NOT_FOUND;
-                case ElementType.MOVIETHEATER:
-                    return Messages.MOVIETHEATER_NOT_FOUND;
-                default:
-                    return Messages.ELEMENT_NOT_FOUND;
-            }
+                ElementType.MOVIE => Messages.MOVIE_NOT_FOUND,
+                ElementType.ADDRESS => Messages.ADDRESS_NOT_FOUND,
+                ElementType.MOVIETHEATER => Messages.MOVIETHEATER_NOT_FOUND,
+                ElementType.MANAGER => Messages.MANAGER_NOT_FOUND,
+                _ => Messages.ELEMENT_NOT_FOUND,
+            };
         }
     }
 }

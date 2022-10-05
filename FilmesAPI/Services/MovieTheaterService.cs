@@ -4,6 +4,7 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace FilmesAPI.Services
 {
@@ -28,12 +29,12 @@ namespace FilmesAPI.Services
             return newMovie;
         } 
 
-        public List<MovieTheater> GetMovieTheatersList()
+        public List<MovieTheater> GetAll()
         {
             return _DbContext.MovieTheaters.ToList();
         }
 
-        public ReadMovieTheaterDTO GetMovieTheaterById(int id)
+        public ReadMovieTheaterDTO GetById(int id)
         {
             MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(m => m.Id == id);
 

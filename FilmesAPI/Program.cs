@@ -1,4 +1,5 @@
 using FilmesAPI.Data;
+using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<FilmesContext>(opts => opts.UseLazyLoadingProxies(
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<MovieTheaterService>();
 builder.Services.AddScoped<AddressService>();
+builder.Services.AddScoped<ManagerService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

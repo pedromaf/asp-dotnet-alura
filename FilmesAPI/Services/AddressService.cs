@@ -29,7 +29,7 @@ namespace FilmesAPI.Services
             return address;
         }
 
-        public ReadAddressDTO GetAddressById(int id)
+        public ReadAddressDTO GetById(int id)
         {
             Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);
             

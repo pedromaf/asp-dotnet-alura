@@ -29,12 +29,12 @@ namespace FilmesAPI.Services
             return movie;
         }
 
-        public List<Movie> GetMoviesList()
+        public List<Movie> GetAll()
         {
             return _DbContext.Movies.ToList();
         }
 
-        public ReadMovieDTO GetMovieById(int id)
+        public ReadMovieDTO GetById(int id)
         {
             Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
             

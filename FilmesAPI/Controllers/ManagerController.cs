@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FilmesAPI.Data;
-using FilmesAPI.Exceptions;
-using FilmesAPI.Models.DTOs;
+﻿using FilmesAPI.Exceptions;
+using FilmesAPI.Models.DTOs.Manager;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,62 +9,63 @@ namespace FilmesAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MovieTheaterController : ControllerBase
+    public class ManagerController : ControllerBase
     {
-        private MovieTheaterService _movieTheaterService;
-        public MovieTheaterController(MovieTheaterService service)
+        private ManagerService _managerService;
+
+        public ManagerController(ManagerService service)
         {
-            _movieTheaterService = service;
+            _managerService = service;
         }
 
         [HttpPost]
-        public IActionResult CreateMovieTheater([FromBody] MovieTheaterDTO movieTheaterDTO)
+        public IActionResult CreateManager([FromBody] ManagerDTO managerDTO)
         {
             try
             {
-                MovieTheater movieTheater = _movieTheaterService.Create(movieTheaterDTO);
+                Manager newManager = _managerService.Create(managerDTO);
 
-                return CreatedAtAction(nameof(GetMovieTheaterById), new { Id = movieTheater.Id }, movieTheater);
+                return CreatedAtAction(nameof(GetManagerById), new { Id = newManager.Id }, newManager);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
         }
 
-        [HttpGet]
-        public IActionResult GetAllMovieTheaters()
-        {
-            try
-            {
-                List<MovieTheater> movieTheatersList = _movieTheaterService.GetAll();
-
-                return Ok(movieTheatersList);
-            }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
-        }
-
         [HttpGet("{id}")]
-        public IActionResult GetMovieTheaterById(int id)
+        public IActionResult GetManagerById(int id)
         {
             try
             {
-                ReadMovieTheaterDTO movieTheaterDTO = _movieTheaterService.GetById(id);
+                ReadManagerDTO readManagerDTO = _managerService.GetById(id);
 
-                return Ok(movieTheaterDTO);
+                return Ok(readManagerDTO);
             }
             catch (ElementNotFoundException exc) { return this.HandleException(exc); }
             catch (ArgumentNullException exc) { return this.HandleException(exc); }
             catch (ArgumentException exc) { return this.HandleException(exc); }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateMovieTheater(int id, [FromBody] MovieTheaterDTO movieTheaterDTO)
+        [HttpGet]
+        public IActionResult GetAllManagers()
         {
             try
             {
-                MovieTheater updatedMovieTheater = _movieTheaterService.Update(id, movieTheaterDTO);
+                List<Manager> managersList = _managerService.GetAll();
 
-                return Ok(updatedMovieTheater);
+                return Ok(managersList);
+            }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateManager(int id, [FromBody] ManagerDTO managerDTO)
+        {
+            try
+            {
+                Manager updatedManager = _managerService.Update(id, managerDTO);
+
+                return Ok(updatedManager);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
@@ -76,11 +75,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteMovieTheater(int id)
+        public IActionResult DeleteManager(int id)
         {
             try
             {
-                _movieTheaterService.Delete(id);
+                _managerService.Delete(id);
 
                 return NoContent();
             }

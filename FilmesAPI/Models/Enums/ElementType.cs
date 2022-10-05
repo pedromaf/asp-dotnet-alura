@@ -4,6 +4,7 @@
     {
         MOVIE,
         ADDRESS,
-        MOVIETHEATER
+        MOVIETHEATER,
+        MANAGER
     }
 }

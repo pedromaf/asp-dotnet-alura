@@ -16,9 +16,7 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class AddressController : ControllerBase
     {
-        private FilmesContext _DbContext;
         private AddressService _addressService;
-        private IMapper _mapper;
 
         public AddressController(AddressService service)
         {
@@ -34,8 +32,8 @@ namespace FilmesAPI.Controllers
 
                 return CreatedAtAction(nameof(GetAddressById), new { Id = address.Id }, address);
             } 
-            catch(DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch(DbUpdateException exc) { return GetErrorResult(exc); }
+            catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch(DbUpdateException exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("{id}")]
@@ -43,13 +41,13 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadAddressDTO requestedAddress = _addressService.GetAddressById(Id);
+                ReadAddressDTO requestedAddress = _addressService.GetById(Id);
             
                 return Ok(requestedAddress);
             }
-            catch(ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch(ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch(ArgumentException exc) { return GetErrorResult(exc); }
+            catch(ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch(ArgumentNullException exc) { return this.HandleException(exc); }
+            catch(ArgumentException exc) { return this.HandleException(exc); }
         }
 
         [HttpPut("{id}")]
@@ -61,11 +59,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(updatedAddress);
             }
-            catch (DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch (DbUpdateException exc) { return GetErrorResult(exc); }
-            catch (ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
+            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
         }
 
         [HttpDelete("{id}")]
@@ -77,22 +75,11 @@ namespace FilmesAPI.Controllers
 
                 return NoContent();
             }
-            catch (DbUpdateConcurrencyException exc) { return GetErrorResult(exc); }
-            catch (DbUpdateException exc) { return GetErrorResult(exc); }
-            catch (ElementNotFoundException exc) { return GetErrorResult(exc); }
-            catch (ArgumentNullException exc) { return GetErrorResult(exc); }
-            catch (ArgumentException exc) { return GetErrorResult(exc); }
+            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
+            catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
+            catch (ArgumentNullException exc) { return this.HandleException(exc); }
+            catch (ArgumentException exc) { return this.HandleException(exc); }
         }
-
-        private IActionResult GetErrorResult(Exception exc)
-        {
-            switch(exc.GetType().ToString())
-            {
-                case "FilmesAPI.Exceptions.ElementNotFoundException":
-                    return NotFound(exc.Message);
-                default:
-                    return StatusCode(500, exc.Message);
-            }
-        } 
     }
 }
