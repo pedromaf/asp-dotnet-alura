@@ -32,12 +32,7 @@ namespace FilmesAPI.Services
         public List<ReadAddressDTO> GetAll()
         {
             List<Address> addressesList = _DbContext.Address.ToList();
-            List<ReadAddressDTO> addressesDTOList = new();
-
-            foreach(Address address in addressesList)
-            {
-                addressesDTOList.Add(_mapper.Map<ReadAddressDTO>(address));
-            }
+            List<ReadAddressDTO> addressesDTOList = _mapper.Map<List<ReadAddressDTO>>(addressesList);
 
             return addressesDTOList;
         }

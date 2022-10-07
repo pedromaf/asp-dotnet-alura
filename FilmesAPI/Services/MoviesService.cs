@@ -32,12 +32,7 @@ namespace FilmesAPI.Services
         public List<ReadMovieDTO> GetAll()
         {
             List<Movie> movieList = _DbContext.Movies.ToList();
-            List<ReadMovieDTO> movieDTOList = new();
-
-            foreach (Movie mt in movieList)
-            {
-                movieDTOList.Add(_mapper.Map<ReadMovieDTO>(mt));
-            }
+            List<ReadMovieDTO> movieDTOList = _mapper.Map<List<ReadMovieDTO>>(movieList);
 
             return movieDTOList;
         }

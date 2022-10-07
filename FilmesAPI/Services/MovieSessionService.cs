@@ -31,12 +31,7 @@ namespace FilmesAPI.Services
         public List<ReadMovieSessionDTO> GetAll()
         {
             List<MovieSession> movieSessionsList = _DbContext.MovieSessions.ToList();
-            List<ReadMovieSessionDTO> movieSessionsDTOList = new();
-
-            foreach(MovieSession ms in movieSessionsList)
-            {
-                movieSessionsDTOList.Add(_mapper.Map<ReadMovieSessionDTO>(ms));
-            }
+            List<ReadMovieSessionDTO> movieSessionsDTOList = _mapper.Map<List<ReadMovieSessionDTO>>(movieSessionsList);
 
             return movieSessionsDTOList;
         }
