@@ -11,7 +11,7 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class MovieSessionController : ControllerBase
     {
-        private MovieSessionService _movieSessionService;
+        private readonly MovieSessionService _movieSessionService;
 
         public MovieSessionController(MovieSessionService service)
         {
@@ -23,9 +23,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MovieSession newMovieSession = _movieSessionService.Create(movieSessionDTO);
+                ReadMovieSessionDTO newMovieSession = _movieSessionService.Create(movieSessionDTO);
 
-                return CreatedAtAction(nameof(GetMovieSessionById), new { Id = newMovieSession.Id }, newMovieSession);
+                return CreatedAtAction(nameof(GetMovieSessionById), new { newMovieSession.Id }, newMovieSession);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
@@ -36,9 +36,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                List<ReadMovieSessionDTO> movieSessions = _movieSessionService.GetAll();
+                List<ReadMovieSessionDTO> movieSessionsList = _movieSessionService.GetAll();
 
-                return Ok(movieSessions);
+                return Ok(movieSessionsList);
             }
             catch (ArgumentNullException exc) { return this.HandleException(exc); }
             catch (ArgumentException exc) { return this.HandleException(exc); }
@@ -63,7 +63,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MovieSession updatedMovieSession = _movieSessionService.Update(id, movieSessionDTO);
+                ReadMovieSessionDTO updatedMovieSession = _movieSessionService.Update(id, movieSessionDTO);
 
                 return Ok(updatedMovieSession);
             }

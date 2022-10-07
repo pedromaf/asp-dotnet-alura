@@ -11,7 +11,7 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class ManagerController : ControllerBase
     {
-        private ManagerService _managerService;
+        private readonly ManagerService _managerService;
 
         public ManagerController(ManagerService service)
         {
@@ -23,9 +23,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MTManager newManager = _managerService.Create(managerDTO);
+                ReadMTManagerDTO newManager = _managerService.Create(managerDTO);
 
-                return CreatedAtAction(nameof(GetManagerById), new { Id = newManager.Id }, newManager);
+                return CreatedAtAction(nameof(GetManagerById), new { newManager.Id }, newManager);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
@@ -36,9 +36,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadMTManagerDTO readManagerDTO = _managerService.GetById(id);
+                ReadMTManagerDTO manager = _managerService.GetById(id);
 
-                return Ok(readManagerDTO);
+                return Ok(manager);
             }
             catch (ElementNotFoundException exc) { return this.HandleException(exc); }
             catch (ArgumentNullException exc) { return this.HandleException(exc); }
@@ -63,7 +63,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MTManager updatedManager = _managerService.Update(id, managerDTO);
+                ReadMTManagerDTO updatedManager = _managerService.Update(id, managerDTO);
 
                 return Ok(updatedManager);
             }

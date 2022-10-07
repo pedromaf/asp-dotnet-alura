@@ -13,7 +13,7 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class MovieTheaterController : ControllerBase
     {
-        private MovieTheaterService _movieTheaterService;
+        private readonly MovieTheaterService _movieTheaterService;
         public MovieTheaterController(MovieTheaterService service)
         {
             _movieTheaterService = service;
@@ -24,9 +24,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MovieTheater movieTheater = _movieTheaterService.Create(movieTheaterDTO);
+                ReadMovieTheaterDTO newMovieTheater = _movieTheaterService.Create(movieTheaterDTO);
 
-                return CreatedAtAction(nameof(GetMovieTheaterById), new { Id = movieTheater.Id }, movieTheater);
+                return CreatedAtAction(nameof(GetMovieTheaterById), new { newMovieTheater.Id }, newMovieTheater);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
@@ -51,9 +51,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadMovieTheaterDTO movieTheaterDTO = _movieTheaterService.GetById(id);
+                ReadMovieTheaterDTO movieTheater = _movieTheaterService.GetById(id);
 
-                return Ok(movieTheaterDTO);
+                return Ok(movieTheater);
             }
             catch (ElementNotFoundException exc) { return this.HandleException(exc); }
             catch (ArgumentNullException exc) { return this.HandleException(exc); }
@@ -65,7 +65,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                MovieTheater updatedMovieTheater = _movieTheaterService.Update(id, movieTheaterDTO);
+                ReadMovieTheaterDTO updatedMovieTheater = _movieTheaterService.Update(id, movieTheaterDTO);
 
                 return Ok(updatedMovieTheater);
             }

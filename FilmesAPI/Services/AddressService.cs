@@ -10,8 +10,8 @@ namespace FilmesAPI.Services
 {
     public class AddressService
     {
-        private FilmesContext _DbContext;
-        private IMapper _mapper;
+        private readonly FilmesContext _DbContext;
+        private readonly IMapper _mapper;
 
         public AddressService(FilmesContext context, IMapper mapper)
         {
@@ -19,22 +19,24 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public Address Create(AddressDTO addressDTO)
+        public ReadAddressDTO Create(AddressDTO addressDTO)
         {
             Address address = _mapper.Map<Address>(addressDTO);
 
             _DbContext.Address.Add(address);
             _DbContext.SaveChanges();
 
-            return address;
+            ReadAddressDTO readDTO = _mapper.Map<ReadAddressDTO>(address);
+
+            return readDTO;
         }
 
         public List<ReadAddressDTO> GetAll()
         {
             List<Address> addressesList = _DbContext.Address.ToList();
-            List<ReadAddressDTO> addressesDTOList = _mapper.Map<List<ReadAddressDTO>>(addressesList);
+            List<ReadAddressDTO> readDTOList = _mapper.Map<List<ReadAddressDTO>>(addressesList);
 
-            return addressesDTOList;
+            return readDTOList;
         }
 
         public ReadAddressDTO GetById(int id)
@@ -46,12 +48,12 @@ namespace FilmesAPI.Services
                 throw new ElementNotFoundException(ElementType.ADDRESS);
             }
 
-            ReadAddressDTO addressDTO = _mapper.Map<ReadAddressDTO>(address);
+            ReadAddressDTO readDTO = _mapper.Map<ReadAddressDTO>(address);
 
-            return addressDTO;
+            return readDTO;
         }
 
-        public Address Update(int id, AddressDTO addressDTO)
+        public ReadAddressDTO Update(int id, AddressDTO addressDTO)
         {
             Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);
 
@@ -64,7 +66,9 @@ namespace FilmesAPI.Services
 
             _DbContext.SaveChanges();
 
-            return address;
+            ReadAddressDTO readDTO = _mapper.Map<ReadAddressDTO>(address);
+
+            return readDTO;
         }
 
         public void Delete(int id)

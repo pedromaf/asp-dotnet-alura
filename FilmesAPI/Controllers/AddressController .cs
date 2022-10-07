@@ -16,7 +16,7 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class AddressController : ControllerBase
     {
-        private AddressService _addressService;
+        private readonly AddressService _addressService;
 
         public AddressController(AddressService service)
         {
@@ -28,9 +28,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                Address address = _addressService.Create(addressDTO);
+                ReadAddressDTO newAddress = _addressService.Create(addressDTO);
 
-                return CreatedAtAction(nameof(GetAddressById), new { Id = address.Id }, address);
+                return CreatedAtAction(nameof(GetAddressById), new { newAddress.Id }, newAddress);
             } 
             catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch(DbUpdateException exc) { return this.HandleException(exc); }
@@ -68,7 +68,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                Address updatedAddress = _addressService.Update(Id, address);
+                ReadAddressDTO updatedAddress = _addressService.Update(Id, address);
 
                 return Ok(updatedAddress);
             }

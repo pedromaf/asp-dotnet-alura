@@ -9,8 +9,8 @@ namespace FilmesAPI.Services
 {
     public class MovieSessionService
     {
-        private FilmesContext _DbContext;
-        private IMapper _mapper;
+        private readonly FilmesContext _DbContext;
+        private readonly IMapper _mapper;
 
         public MovieSessionService(FilmesContext context, IMapper mapper)
         {
@@ -18,22 +18,24 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public MovieSession Create(MovieSessionDTO movieSessionDTO)
+        public ReadMovieSessionDTO Create(MovieSessionDTO movieSessionDTO)
         {
             MovieSession movieSession = _mapper.Map<MovieSession>(movieSessionDTO);
 
             _DbContext.Add(movieSession);
             _DbContext.SaveChanges();
 
-            return movieSession;
+            ReadMovieSessionDTO readDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
+
+            return readDTO;
         } 
 
         public List<ReadMovieSessionDTO> GetAll()
         {
             List<MovieSession> movieSessionsList = _DbContext.MovieSessions.ToList();
-            List<ReadMovieSessionDTO> movieSessionsDTOList = _mapper.Map<List<ReadMovieSessionDTO>>(movieSessionsList);
+            List<ReadMovieSessionDTO> readDTOList = _mapper.Map<List<ReadMovieSessionDTO>>(movieSessionsList);
 
-            return movieSessionsDTOList;
+            return readDTOList;
         }
 
         public ReadMovieSessionDTO GetById(int id)
@@ -45,12 +47,12 @@ namespace FilmesAPI.Services
                 throw new ElementNotFoundException(ElementType.MOVIESESSION);
             }
 
-            ReadMovieSessionDTO movieSessionDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
+            ReadMovieSessionDTO readDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
 
-            return movieSessionDTO;
+            return readDTO;
         }
 
-        public MovieSession Update(int id, MovieSessionDTO movieSessionDTO)
+        public ReadMovieSessionDTO Update(int id, MovieSessionDTO movieSessionDTO)
         {
             MovieSession movieSession = _DbContext.MovieSessions.FirstOrDefault(ms => ms.Id == id);
 
@@ -63,7 +65,9 @@ namespace FilmesAPI.Services
 
             _DbContext.SaveChanges();
 
-            return movieSession;
+            ReadMovieSessionDTO readDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
+
+            return readDTO;
         }
 
         public void Delete(int id)

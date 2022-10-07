@@ -28,9 +28,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                Movie movie = _movieService.Create(movieDTO);
+                ReadMovieDTO newMovie = _movieService.Create(movieDTO);
 
-                return CreatedAtAction(nameof(GetMovieById), new { Id = movie.Id }, movie);
+                return CreatedAtAction(nameof(GetMovieById), new { newMovie.Id }, newMovie);
             } 
             catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch(DbUpdateException exc) { return this.HandleException(exc); }
@@ -54,9 +54,9 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                ReadMovieDTO requestedMovie = _movieService.GetById(Id);
+                ReadMovieDTO movie = _movieService.GetById(Id);
             
-                return Ok(requestedMovie);
+                return Ok(movie);
             }
             catch(ElementNotFoundException exc) { return this.HandleException(exc); }
             catch(ArgumentNullException exc) { return this.HandleException(exc); }
@@ -68,7 +68,7 @@ namespace FilmesAPI.Controllers
         {
             try
             {
-                Movie updatedMovie = _movieService.Update(Id, movie);
+                ReadMovieDTO updatedMovie = _movieService.Update(Id, movie);
 
                 return Ok(updatedMovie);
             }

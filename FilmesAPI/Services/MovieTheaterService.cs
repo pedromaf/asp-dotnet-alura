@@ -10,8 +10,8 @@ namespace FilmesAPI.Services
 {
     public class MovieTheaterService
     {
-        private FilmesContext _DbContext;
-        private IMapper _mapper;
+        private readonly FilmesContext _DbContext;
+        private readonly IMapper _mapper;
 
         public MovieTheaterService(FilmesContext dbContext, IMapper mapper)
         {
@@ -19,24 +19,26 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public MovieTheater Create(MovieTheaterDTO movieTheaterDTO)
+        public ReadMovieTheaterDTO Create(MovieTheaterDTO movieTheaterDTO)
         {
             VerifyAddressAvailability(movieTheaterDTO.AddressId);
 
-            MovieTheater newMovie = _mapper.Map<MovieTheater>(movieTheaterDTO);
+            MovieTheater movieTheater = _mapper.Map<MovieTheater>(movieTheaterDTO);
 
-            _DbContext.Add(newMovie);
+            _DbContext.Add(movieTheater);
             _DbContext.SaveChanges();
 
-            return newMovie;
+            ReadMovieTheaterDTO readDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
+
+            return readDTO;
         } 
 
         public List<ReadMovieTheaterDTO> GetAll()
         {
-            List<MovieTheater> movieTheaterList = _DbContext.MovieTheaters.ToList();
-            List<ReadMovieTheaterDTO> movieTheaterDTOList = _mapper.Map<List<ReadMovieTheaterDTO>>(movieTheaterList);
+            List<MovieTheater> movieTheatersList = _DbContext.MovieTheaters.ToList();
+            List<ReadMovieTheaterDTO> readDTOList = _mapper.Map<List<ReadMovieTheaterDTO>>(movieTheatersList);
             
-            return movieTheaterDTOList;
+            return readDTOList;
         }
 
         public ReadMovieTheaterDTO GetById(int id)
@@ -48,14 +50,13 @@ namespace FilmesAPI.Services
                 throw new ElementNotFoundException(ElementType.MOVIETHEATER);
             }
 
-            ReadMovieTheaterDTO movieTheaterDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
+            ReadMovieTheaterDTO readDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
 
-            return movieTheaterDTO;
+            return readDTO;
         }
 
-        public MovieTheater Update(int id, MovieTheaterDTO movieTheaterDTO)
+        public ReadMovieTheaterDTO Update(int id, MovieTheaterDTO movieTheaterDTO)
         {
-
             MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(m => m.Id == id);
 
             if (movieTheater == null)
@@ -72,7 +73,9 @@ namespace FilmesAPI.Services
 
             _DbContext.SaveChanges();
 
-            return movieTheater;
+            ReadMovieTheaterDTO readDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
+
+            return readDTO;
         }
 
         public void Delete(int id)

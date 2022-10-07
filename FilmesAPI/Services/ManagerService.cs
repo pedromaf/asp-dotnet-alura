@@ -9,8 +9,8 @@ namespace FilmesAPI.Services
 {
     public class ManagerService
     {
-        private FilmesContext _DbContext;
-        private IMapper _mapper;
+        private readonly FilmesContext _DbContext;
+        private readonly IMapper _mapper;
 
         public ManagerService(FilmesContext context, IMapper mapper)
         {
@@ -18,22 +18,24 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public MTManager Create(MTManagerDTO managerDTO)
+        public ReadMTManagerDTO Create(MTManagerDTO managerDTO)
         {
-            MTManager newManager = _mapper.Map<MTManager>(managerDTO);
+            MTManager manager = _mapper.Map<MTManager>(managerDTO);
 
-            _DbContext.Add(newManager);
+            _DbContext.Add(manager);
             _DbContext.SaveChanges();
 
-            return newManager;
+            ReadMTManagerDTO readDTO = _mapper.Map<ReadMTManagerDTO>(manager);
+
+            return readDTO;
         }
 
         public List<ReadMTManagerDTO> GetAll()
         {
             List<MTManager> managersList = _DbContext.Managers.ToList();
-            List<ReadMTManagerDTO> managersDTOList = _mapper.Map<List<ReadMTManagerDTO>>(managersList);
+            List<ReadMTManagerDTO> readDTOList = _mapper.Map<List<ReadMTManagerDTO>>(managersList);
 
-            return managersDTOList;
+            return readDTOList;
         }
 
         public ReadMTManagerDTO GetById(int id)
@@ -45,12 +47,12 @@ namespace FilmesAPI.Services
                 throw new ElementNotFoundException(ElementType.MANAGER);
             }
 
-            ReadMTManagerDTO managerDTO = _mapper.Map<ReadMTManagerDTO>(manager);
+            ReadMTManagerDTO readDTO = _mapper.Map<ReadMTManagerDTO>(manager);
 
-            return managerDTO;
+            return readDTO;
         }
 
-        public MTManager Update(int id, MTManagerDTO managerDTO)
+        public ReadMTManagerDTO Update(int id, MTManagerDTO managerDTO)
         {
             MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
 
@@ -63,7 +65,9 @@ namespace FilmesAPI.Services
 
             _DbContext.SaveChanges();
 
-            return manager;
+            ReadMTManagerDTO readDTO = _mapper.Map<ReadMTManagerDTO>(manager);
+
+            return readDTO;
         }
 
         public void Delete(int id)

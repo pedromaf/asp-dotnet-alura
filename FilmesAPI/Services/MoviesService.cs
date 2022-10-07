@@ -10,8 +10,8 @@ namespace FilmesAPI.Services
 {
     public class MoviesService
     {
-        private FilmesContext _DbContext;
-        private IMapper _mapper;
+        private readonly FilmesContext _DbContext;
+        private readonly IMapper _mapper;
 
         public MoviesService(FilmesContext context, IMapper mapper)
         {
@@ -19,22 +19,24 @@ namespace FilmesAPI.Services
             _mapper = mapper;
         }
 
-        public Movie Create(MovieDTO movieDTO)
+        public ReadMovieDTO Create(MovieDTO movieDTO)
         {
             Movie movie = _mapper.Map<Movie>(movieDTO);
 
             _DbContext.Movies.Add(movie);
             _DbContext.SaveChanges();
 
-            return movie;
+            ReadMovieDTO readDTO = _mapper.Map<ReadMovieDTO>(movie);
+
+            return readDTO;
         }
 
         public List<ReadMovieDTO> GetAll()
         {
             List<Movie> movieList = _DbContext.Movies.ToList();
-            List<ReadMovieDTO> movieDTOList = _mapper.Map<List<ReadMovieDTO>>(movieList);
+            List<ReadMovieDTO> readDTOList = _mapper.Map<List<ReadMovieDTO>>(movieList);
 
-            return movieDTOList;
+            return readDTOList;
         }
 
         public ReadMovieDTO GetById(int id)
@@ -46,12 +48,12 @@ namespace FilmesAPI.Services
                 throw new ElementNotFoundException(ElementType.MOVIE);
             }
 
-            ReadMovieDTO movieDTO = _mapper.Map<ReadMovieDTO>(movie);
+            ReadMovieDTO readDTO = _mapper.Map<ReadMovieDTO>(movie);
 
-            return movieDTO;
+            return readDTO;
         }
 
-        public Movie Update(int id, MovieDTO movieDTO)
+        public ReadMovieDTO Update(int id, MovieDTO movieDTO)
         {
             Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
 
@@ -64,7 +66,9 @@ namespace FilmesAPI.Services
 
             _DbContext.SaveChanges();
 
-            return movie;
+            ReadMovieDTO readDTO = _mapper.Map<ReadMovieDTO>(movie);
+
+            return readDTO;
         }
 
         public void Delete(int id)
