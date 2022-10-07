@@ -2,7 +2,7 @@
 
 This repository will be used during ASP.NET Alura courses.
 
-The purpose of these courses is to learn how to create and configure an ASP.NET API, using the Entity Framework for database modeling with all types of relationships.
+The purpose of these courses is to learn how to create and configure an ASP.NET API, using the Entity Framework for database modeling with all types of relationships and Identity to handle with users and authorization.
 
 ## Disclaimer
 Some of the code practices used are unrelated to the courses, such as:
