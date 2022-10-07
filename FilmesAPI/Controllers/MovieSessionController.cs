@@ -25,7 +25,7 @@ namespace FilmesAPI.Controllers
             {
                 MovieSession newMovieSession = _movieSessionService.Create(movieSessionDTO);
 
-                return Ok(newMovieSession);
+                return CreatedAtAction(nameof(GetMovieSessionById), new { Id = newMovieSession.Id }, newMovieSession);
             }
             catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
             catch (DbUpdateException exc) { return this.HandleException(exc); }
