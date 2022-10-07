@@ -9,7 +9,15 @@ namespace FilmesAPI.Data.Profiles
         public MovieProfile()
         {
             CreateMap<MovieDTO, Movie>();
-            CreateMap<Movie, ReadMovieDTO>();
+            CreateMap<Movie, ReadMovieDTO>()
+                .ForMember(dto => dto.Sessions, opt => opt
+                .MapFrom(m => m.Sessions.Select( s => new
+                    {
+                        s.Id,
+                        s.MovieTheaterId,
+                        s.Start,
+                        s.End
+                    })));
         }
     }
 }

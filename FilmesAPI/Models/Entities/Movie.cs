@@ -28,5 +28,7 @@ namespace FilmesAPI.Models.Entities
 
         [Required(ErrorMessage = Messages.MOVIE_RELEASE_DATE_REQUIRED)]
         public string ReleaseDate { get; set; }
+
+        public virtual List<MovieSession> Sessions { get; set; }
     }
 }

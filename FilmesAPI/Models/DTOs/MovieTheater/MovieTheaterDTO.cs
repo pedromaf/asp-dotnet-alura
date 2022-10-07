@@ -12,7 +12,6 @@ namespace FilmesAPI.Models.DTOs
         [Required(ErrorMessage = Messages.MOVIETHEATER_ADDRESSID_REQUIRED)]
         public int AddressId { get; set; }
 
-        [Required(ErrorMessage = Messages.MOVIETHEATER_MANAGERID_REQUIRED)]
         public int ManagerId { get; set; }
     }
 }

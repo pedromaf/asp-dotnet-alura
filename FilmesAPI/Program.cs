@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 #region Service layer dependency injection.
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<MovieTheaterService>();
+builder.Services.AddScoped<MovieSessionService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<ManagerService>();
 #endregion

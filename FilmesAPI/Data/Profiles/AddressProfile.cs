@@ -11,7 +11,8 @@ namespace FilmesAPI.Data.Profiles
             CreateMap<AddressDTO, Address>();
             CreateMap<Address, ReadAddressDTO>()
                 .ForMember(dto => dto.MovieTheater, opt => opt.MapFrom(
-                    address => new { 
+                    address => new 
+                    { 
                         address.MovieTheater.Id,
                         address.MovieTheater.Name,
                         address.MovieTheater.ManagerId

@@ -10,5 +10,6 @@ namespace FilmesAPI.Models.DTOs
         public string Name { get; set; }
         public object Address { get; set; }
         public object Manager { get; set; }
+        public object Sessions { get; set; }
     }
 }

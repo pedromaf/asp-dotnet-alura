@@ -5,6 +5,11 @@ namespace FilmesAPI.Exceptions
 {
     public class ElementNotFoundException : Exception
     {
+        public ElementNotFoundException() : base(Messages.ELEMENT_NOT_FOUND)
+        {
+
+        }
+        
         public ElementNotFoundException(ElementType type) : base(GetErrorMessage(type))
         {
             
@@ -18,6 +23,7 @@ namespace FilmesAPI.Exceptions
                 ElementType.ADDRESS => Messages.ADDRESS_NOT_FOUND,
                 ElementType.MOVIETHEATER => Messages.MOVIETHEATER_NOT_FOUND,
                 ElementType.MANAGER => Messages.MANAGER_NOT_FOUND,
+                ElementType.MOVIESESSION => Messages.MOVIESESSION_NOT_FOUND,
                 _ => Messages.ELEMENT_NOT_FOUND,
             };
         }

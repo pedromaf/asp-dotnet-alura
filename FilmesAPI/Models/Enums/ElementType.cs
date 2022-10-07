@@ -5,6 +5,7 @@
         MOVIE,
         ADDRESS,
         MOVIETHEATER,
-        MANAGER
+        MANAGER,
+        MOVIESESSION
     }
 }

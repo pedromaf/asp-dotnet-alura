@@ -34,13 +34,20 @@
         // Manager attributes.
         internal const string MANAGER_NAME_REQUIRED = "The manager name can't be empty.";
         internal const string MANAGER_NAME_TOO_LONG = "The manager name is too long.";
-        
+
+        // MovieSession attributes.
+        internal const string MOVIESESSION_MOVIEID_REQUIRED = "The movie session movie id can't be empty.";
+        internal const string MOVIESESSION_MOVIETHEATERID_REQUIRED = "The movie session movie theater id can't be empty.";
+        internal const string MOVIESESSION_START_REQUIRED = "The movie session start can't be empty.";
+        internal const string MOVIESESSION_END_REQUIRED = "The movie session end can't be empty.";
+
         // Element not found.
         internal const string ELEMENT_NOT_FOUND = "The requested element doesn't exist.";
         internal const string MOVIE_NOT_FOUND = "The requested movie doesn't exist.";
         internal const string ADDRESS_NOT_FOUND = "The requested address doesn't exist.";
         internal const string MOVIETHEATER_NOT_FOUND = "The requested movie theater doesn't exist.";
         internal const string MANAGER_NOT_FOUND = "The requested manager doesn't exist.";
+        internal const string MOVIESESSION_NOT_FOUND = "The requested movie session doesn't exist.";
 
         // Element being used.
         internal const string ELEMENT_BEING_USED = "Element unavailable error. The requested element is already being used.";

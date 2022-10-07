@@ -17,12 +17,13 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.MOVIETHEATER_ADDRESSID_REQUIRED)]
         public int AddressId { get; set; }
 
-        [Required(ErrorMessage = Messages.MOVIETHEATER_MANAGERID_REQUIRED)]
         public int ManagerId { get; set; }
 
         public virtual Address Address { get; set; }
 
         public virtual MTManager Manager { get; set; }
-        
+
+        public virtual List<MovieSession> Sessions { get; set; }
+
     }
 }
