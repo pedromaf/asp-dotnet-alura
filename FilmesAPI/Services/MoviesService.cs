@@ -31,9 +31,18 @@ namespace FilmesAPI.Services
             return readDTO;
         }
 
-        public List<ReadMovieDTO> GetAll()
+        public List<ReadMovieDTO> GetAll(int? ageRating)
         {
-            List<Movie> movieList = _DbContext.Movies.ToList();
+            List<Movie> movieList = new();
+
+            if (ageRating != null)
+            {
+                movieList = _DbContext.Movies.Where(movie => movie.AgeRating <= ageRating).ToList();
+            } else
+            {
+                movieList = _DbContext.Movies.ToList();
+            }
+
             List<ReadMovieDTO> readDTOList = _mapper.Map<List<ReadMovieDTO>>(movieList);
 
             return readDTOList;

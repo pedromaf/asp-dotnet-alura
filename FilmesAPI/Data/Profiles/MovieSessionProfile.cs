@@ -18,7 +18,8 @@ namespace FilmesAPI.Data.Profiles
                         ms.Movie.Director,
                         ms.Movie.Genre,
                         ms.Movie.Description,
-                        ms.Movie.ReleaseDate
+                        ms.Movie.ReleaseDate,
+                        ms.Movie.AgeRating
                     }))
                 .ForMember(dto => dto.MovieTheater, opt => opt.MapFrom(
                     mt => new

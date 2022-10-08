@@ -29,6 +29,10 @@ namespace FilmesAPI.Models.Entities
         [Required(ErrorMessage = Messages.MOVIE_RELEASE_DATE_REQUIRED)]
         public string ReleaseDate { get; set; }
 
+        [Required(ErrorMessage = Messages.MOVIE_AGERATING_REQUIRED)]
+        [Range(0, 18, ErrorMessage = Messages.MOVIE_AGERATING_OUTOFRANGE)]
+        public int AgeRating { get; set; }
+
         public virtual List<MovieSession> Sessions { get; set; }
     }
 }

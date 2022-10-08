@@ -37,11 +37,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllMovies()
+        public IActionResult GetAllMovies([FromQuery] int? ageRating = null)
         {
             try
             {
-                List<ReadMovieDTO> moviesList = _movieService.GetAll();
+                List<ReadMovieDTO> moviesList = _movieService.GetAll(ageRating);
 
                 return Ok(moviesList);
             }

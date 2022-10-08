@@ -12,5 +12,6 @@ namespace FilmesAPI.Models.DTOs
         public string Description { get; set; }
         public string ReleaseDate { get; set; }
         public object Sessions { get; set; }
+        public int AgeRating { get; set; }
     }
 }

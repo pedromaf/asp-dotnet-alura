@@ -13,6 +13,8 @@
         internal const string MOVIE_DESCRIPTION_TOO_SMALL = "The description is too small.";
         internal const string MOVIE_DESCRIPTION_TOO_LONG = "The description is too long.";
         internal const string MOVIE_RELEASE_DATE_REQUIRED = "The release date can't be empty.";
+        internal const string MOVIE_AGERATING_REQUIRED = "The age rating can't be empty.";
+        internal const string MOVIE_AGERATING_OUTOFRANGE = "The age rating need's to be a value between 0 and 18.";
 
         // Address attributes.
         internal const string ADDRESS_CITY_REQUIRED = "The address city can't be empty.";
