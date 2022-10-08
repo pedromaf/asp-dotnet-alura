@@ -33,9 +33,19 @@ namespace FilmesAPI.Services
             return readDTO;
         } 
 
-        public List<ReadMovieTheaterDTO> GetAll()
+        public List<ReadMovieTheaterDTO> GetAll(string movieName)
         {
             List<MovieTheater> movieTheatersList = _DbContext.MovieTheaters.ToList();
+
+            if(movieName != null)
+            {
+                IEnumerable<MovieTheater> query = from movieTheater in movieTheatersList
+                                                  where movieTheater.Sessions.Any(session => session.Movie.Name == movieName)
+                                                  select movieTheater;
+
+                movieTheatersList = query.ToList();
+            }
+
             List<ReadMovieTheaterDTO> readDTOList = _mapper.Map<List<ReadMovieTheaterDTO>>(movieTheatersList);
             
             return readDTOList;

@@ -34,11 +34,11 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllMovieTheaters()
+        public IActionResult GetAllMovieTheaters([FromQuery] string? movieName = null)
         {
             try
             {
-                List<ReadMovieTheaterDTO> movieTheatersList = _movieTheaterService.GetAll();
+                List<ReadMovieTheaterDTO> movieTheatersList = _movieTheaterService.GetAll(movieName);
 
                 return Ok(movieTheatersList);
             }
