@@ -1,9 +1,6 @@
 using FilmesAPI.Data;
-using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using System.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +39,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 
