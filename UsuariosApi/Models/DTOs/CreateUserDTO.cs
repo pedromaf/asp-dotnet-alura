@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using UsuariosAPI.Resources;
 
 namespace UsuariosAPI.Models.DTOs
 {
@@ -15,7 +16,7 @@ namespace UsuariosAPI.Models.DTOs
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password")]
-        public string RepeatedPassword { get; set; }
+        [Compare("Password", ErrorMessage = Messages.USER_CONFIRMATION_PASSWORD_MATCH_ERROR)]
+        public string ConfirmationPassword { get; set; }
     }
 }
