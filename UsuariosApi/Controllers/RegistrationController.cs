@@ -27,6 +27,7 @@ namespace UsuariosAPI.Controllers
                 return Ok();
             }
             catch(UserRegistrationFailedException exc) { return this.HandleException(exc); }
+            catch(AggregateException exc) { return this.HandleException(exc); }
         }
     }
 }

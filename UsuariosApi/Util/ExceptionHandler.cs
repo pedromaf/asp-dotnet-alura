@@ -11,6 +11,7 @@ namespace UsuariosAPI.Util
             return exc switch
             {
                 UserRegistrationFailedException => controller.StatusCode((int)HttpStatusCode.BadRequest, exc.Message),
+                UserLoginUnauthorizedException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
                 _ => controller.StatusCode((int)HttpStatusCode.InternalServerError, exc.Message)
             };
         }

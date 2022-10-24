@@ -11,13 +11,11 @@ namespace UsuariosAPI.Services
 {
     public class RegistrationService
     {
-        private UserDbContext _context;
         private IMapper _mapper;
         private UserManager<IdentityUser<int>> _userManager;
 
-        public RegistrationService(UserDbContext context, IMapper mapper, UserManager<IdentityUser<int>> userManager)
+        public RegistrationService(IMapper mapper, UserManager<IdentityUser<int>> userManager)
         {
-            _context = context;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -31,6 +29,7 @@ namespace UsuariosAPI.Services
             if(!identityResult.Result.Succeeded)
             {
                 IdentityError error = identityResult.Result.Errors.FirstOrDefault();
+
                 throw new UserRegistrationFailedException(error.Description ?? Messages.USER_REGISTRATION_FAILED);
             }
         }
