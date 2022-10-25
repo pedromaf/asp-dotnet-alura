@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 
 #region Service Layer dependency injection
 builder.Services.AddScoped<RegistrationService>();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<LoginService>();
 #endregion
 

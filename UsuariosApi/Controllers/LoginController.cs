@@ -23,9 +23,9 @@ namespace UsuariosAPI.Controllers
         {
             try
             {
-                _loginService.UserLogin(request);
+                string token = _loginService.UserLogin(request);
 
-                return Ok();
+                return Ok(token);
             }
             catch (ArgumentException exc) { return this.HandleException(exc); }
             catch (UserLoginUnauthorizedException exc) { return this.HandleException(exc); }

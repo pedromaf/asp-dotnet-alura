@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using UsuariosAPI.Data;
 using UsuariosAPI.Models.Requests;
 using UsuariosAPI.Models.Exceptions;
+using UsuariosAPI.Models.Entities;
 
 namespace UsuariosAPI.Services
 {
@@ -15,11 +16,20 @@ namespace UsuariosAPI.Services
             _signInManager = signInManager;
         }
 
-        public void UserLogin(LoginRequest request)
+        public string UserLogin(LoginRequest request)
         {
             Task<SignInResult> resultIdentity = _signInManager.PasswordSignInAsync(request.Username, request.Password, false, false);
 
-            if (!resultIdentity.Result.Succeeded)
+            if (resultIdentity.Result.Succeeded)
+            {
+                IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(
+                        user => user.NormalizedUserName == request.Username.ToUpper()
+                    );
+                Token token = TokenService.CreateToken(identityUser);
+                
+                return token.Value;
+            } 
+            else
             {
                 throw new UserLoginUnauthorizedException();
             }
