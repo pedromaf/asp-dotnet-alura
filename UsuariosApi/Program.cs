@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<LoginService>();
+builder.Services.AddScoped<LogoutService>();
 #endregion
 
 #region DB Configuration

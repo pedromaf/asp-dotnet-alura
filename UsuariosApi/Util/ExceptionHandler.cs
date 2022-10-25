@@ -12,6 +12,7 @@ namespace UsuariosAPI.Util
             {
                 UserRegistrationFailedException => controller.StatusCode((int)HttpStatusCode.BadRequest, exc.Message),
                 UserLoginUnauthorizedException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
+                UserLogoutNotPerformedException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
                 _ => controller.StatusCode((int)HttpStatusCode.InternalServerError, exc.Message)
             };
         }

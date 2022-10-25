@@ -10,7 +10,7 @@ namespace UsuariosAPI.Controllers
     [Route("[controller]")]
     public class RegistrationController : ControllerBase
     {
-        private RegistrationService _registrationService;
+        private readonly RegistrationService _registrationService;
 
         public RegistrationController(RegistrationService service)
         {

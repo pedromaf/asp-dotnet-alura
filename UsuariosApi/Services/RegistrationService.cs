@@ -11,8 +11,8 @@ namespace UsuariosAPI.Services
 {
     public class RegistrationService
     {
-        private IMapper _mapper;
-        private UserManager<IdentityUser<int>> _userManager;
+        private readonly IMapper _mapper;
+        private readonly UserManager<IdentityUser<int>> _userManager;
 
         public RegistrationService(IMapper mapper, UserManager<IdentityUser<int>> userManager)
         {

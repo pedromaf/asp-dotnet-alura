@@ -9,7 +9,7 @@ namespace UsuariosAPI.Services
 {
     public class LoginService
     {
-        private SignInManager<IdentityUser<int>> _signInManager;
+        private readonly SignInManager<IdentityUser<int>> _signInManager;
 
         public LoginService(SignInManager<IdentityUser<int>> signInManager)
         {
