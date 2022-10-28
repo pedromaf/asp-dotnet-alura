@@ -31,6 +31,7 @@ namespace UsuariosAPI.Controllers
             catch (ArgumentException exc) { return this.HandleException(exc); }
             catch (AggregateException exc) { return this.HandleException(exc); }
             catch (UserRegistrationFailedException exc) { return this.HandleException(exc); }
+            catch (EmailServiceErrorException exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("/activate")]

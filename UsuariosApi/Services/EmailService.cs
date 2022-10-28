@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 using Newtonsoft.Json.Linq;
+using System.Net.Sockets;
 using System.Web;
 using UsuariosAPI.Models.Entities;
 
@@ -15,20 +16,29 @@ namespace UsuariosAPI.Services
             _config = config;
         }
 
-        public void SendAccountConfirmationEmail(string recipient, int userId, EmailConfirmationCode code)
+        public bool SendAccountConfirmationEmail(string recipient, int userId, EmailConfirmationCode code)
         {
-            List<string> recipients = new List<string>();
-            string emailSubject = "Account confirmation";
-            string encodedCode = HttpUtility.UrlEncode(code.Value);
-            string emailContent = $"https://localhost:7065/activate?userId={userId}&activationCode={encodedCode}";
+            try
+            {
+                List<string> recipients = new List<string>();
+                string emailSubject = "Account confirmation";
+                string encodedCode = HttpUtility.UrlEncode(code.Value);
+                string emailContent = $"https://localhost:7065/activate?userId={userId}&activationCode={encodedCode}";
 
-            recipients.Add(recipient);
+                recipients.Add(recipient);
 
-            EmailData emailData = new EmailData(recipients, emailSubject, emailContent);
+                EmailData emailData = new EmailData(recipients, emailSubject, emailContent);
 
-            MimeMessage email = CreateEmailBody(emailData);
+                MimeMessage email = CreateEmailBody(emailData);
 
-            Send(email);
+                Send(email);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void Send(MimeMessage email)

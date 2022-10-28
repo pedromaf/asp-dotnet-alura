@@ -23,21 +23,30 @@ namespace UsuariosAPI.Services
 
         public void CreateUser(CreateUserDTO userDTO)
         {
+            bool emailSent = false;
             User newUser = _mapper.Map<User>(userDTO);
             IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
-            Task<IdentityResult> identityResult = _userManager.CreateAsync(identityUser, userDTO.Password);
+            IdentityResult creationResult = _userManager.CreateAsync(identityUser, userDTO.Password).Result;
 
-            if(identityResult.Result.Succeeded)
+            if(creationResult.Succeeded)
             {
                 Task<string> confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
                 EmailConfirmationCode code = new EmailConfirmationCode(confirmationCode.Result);
 
-                _emailService.SendAccountConfirmationEmail(identityUser.Email, identityUser.Id, code);
-            } else
+                emailSent = _emailService.SendAccountConfirmationEmail(identityUser.Email, identityUser.Id, code);
+            } 
+            else
             {
-                IdentityError error = identityResult.Result.Errors.FirstOrDefault();
+                IdentityError error = creationResult.Errors.FirstOrDefault();
 
                 throw new UserRegistrationFailedException(error.Description ?? Messages.USER_REGISTRATION_FAILED);
+            }
+
+            if(!emailSent)
+            {
+                IdentityResult deleteResult = _userManager.DeleteAsync(identityUser).Result;
+
+                throw new EmailServiceErrorException();
             }
         }
 
