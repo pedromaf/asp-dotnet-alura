@@ -21,7 +21,10 @@ var serverVersion = new MySqlServerVersion(new Version(8, 0, 30));
 
 // Connecting with MySQL database.
 builder.Services.AddDbContext<UserDbContext>(opts => opts.UseLazyLoadingProxies().UseMySql(mySQLConnectionString, serverVersion));
-builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddEntityFrameworkStores<UserDbContext>();
+builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+        opt => opt.SignIn.RequireConfirmedEmail = true
+    ).AddEntityFrameworkStores<UserDbContext>()
+    .AddDefaultTokenProviders();
 #endregion
 
 

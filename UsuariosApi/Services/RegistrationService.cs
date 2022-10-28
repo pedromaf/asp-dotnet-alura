@@ -20,13 +20,18 @@ namespace UsuariosAPI.Services
             _userManager = userManager;
         }
 
-        public void CreateUser(CreateUserDTO userDTO)
+        public string CreateUser(CreateUserDTO userDTO)
         {
             User newUser = _mapper.Map<User>(userDTO);
             IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
             Task<IdentityResult> identityResult = _userManager.CreateAsync(identityUser, userDTO.Password);
 
-            if(!identityResult.Result.Succeeded)
+            if(identityResult.Result.Succeeded)
+            {
+                Task<string> confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+                
+                return confirmationCode.Result;
+            } else
             {
                 IdentityError error = identityResult.Result.Errors.FirstOrDefault();
 

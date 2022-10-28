@@ -22,12 +22,18 @@ namespace UsuariosAPI.Controllers
         {
             try
             {
-                _registrationService.CreateUser(userDTO);
+                string activationCode = _registrationService.CreateUser(userDTO);
 
-                return Ok();
+                return Ok(activationCode);
             }
             catch(UserRegistrationFailedException exc) { return this.HandleException(exc); }
             catch(AggregateException exc) { return this.HandleException(exc); }
+        }
+
+        [HttpPost("/activate")]
+        public IActionResult ActivateUserAccount()
+        {
+            throw new NotImplementedException();
         }
     }
 }
