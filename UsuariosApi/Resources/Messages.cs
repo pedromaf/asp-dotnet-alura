@@ -9,5 +9,7 @@ namespace UsuariosAPI.Resources
         internal const string LOGIN_UNAUTHORIZED_ERROR = "Login attempt failed. Invalid credentials.";
         internal const string USER_LOGOUT_NOT_PERFORMED_ERROR = "Logout attempt failed.";
         internal const string EMAIL_CONFIRMATION_NEEDED_EXCEPTION = "Login attempt failed. Email confirmation needed.";
+        internal const string INVALID_EMAIL_CONFIRMATION_CODE = "Invalid email confirmation code.";
+        internal const string USER_NOT_FOUND = "The specified user doesn't exist.";
     }
 }

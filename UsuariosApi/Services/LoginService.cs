@@ -12,11 +12,13 @@ namespace UsuariosAPI.Services
     {
         private readonly SignInManager<IdentityUser<int>> _signInManager;
         private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly TokenService _tokenService;
 
-        public LoginService(SignInManager<IdentityUser<int>> signInManager, UserManager<IdentityUser<int>> userManager)
+        public LoginService(SignInManager<IdentityUser<int>> signInManager, UserManager<IdentityUser<int>> userManager, TokenService tokenService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         public Token UserLogin(LoginRequest request)
@@ -27,7 +29,7 @@ namespace UsuariosAPI.Services
 
             Login(request.Username, request.Password, false, false);
 
-            Token token = TokenService.CreateToken(identityUser);
+            Token token = _tokenService.CreateToken(identityUser);
 
             return token;
         }

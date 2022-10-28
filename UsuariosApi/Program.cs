@@ -13,6 +13,7 @@ builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<LoginService>();
 builder.Services.AddScoped<LogoutService>();
+builder.Services.AddScoped<EmailService>();
 #endregion
 
 #region DB Configuration

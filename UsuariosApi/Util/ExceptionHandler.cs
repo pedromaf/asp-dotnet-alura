@@ -14,6 +14,8 @@ namespace UsuariosAPI.Util
                 UserLoginUnauthorizedException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
                 UserLogoutNotPerformedException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
                 EmailConfirmationNeededException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
+                InvalidEmailConfirmationCodeException => controller.StatusCode((int)HttpStatusCode.Unauthorized, exc.Message),
+                UserNotFoundException => controller.StatusCode((int)HttpStatusCode.BadRequest, exc.Message),
                 _ => controller.StatusCode((int)HttpStatusCode.InternalServerError, exc.Message)
             };
         }

@@ -9,7 +9,7 @@ namespace UsuariosAPI.Services
 {
     public class TokenService
     {
-        public static Token CreateToken(IdentityUser<int> user)
+        public Token CreateToken(IdentityUser<int> user)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             
