@@ -67,5 +67,21 @@ namespace UsuariosAPI.Services
                 throw new UserLoginUnauthorizedException();
             }
         }
+
+        internal Token RequestPasswordReset(ResetPasswordRequest request)
+        {
+            IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == request.Email.ToUpper());
+
+            if (identityUser == null)
+            {
+                throw new EmailNotRegisteredException();
+            }
+
+            string resetTokenValue = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+
+            Token token = new Token(resetTokenValue);
+
+            return token;
+        }
     }
 }

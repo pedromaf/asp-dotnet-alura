@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using UsuariosAPI.Models.Entities;
-using UsuariosAPI.Models.Exceptions;
 using UsuariosAPI.Models.Requests;
 using UsuariosAPI.Services;
 using UsuariosAPI.Util;
@@ -31,13 +29,14 @@ namespace UsuariosAPI.Controllers
             catch (Exception exc) { return this.HandleException(exc); }
         }
 
-        [HttpPost]
-        [Route("/reset-password")]
-        public IActionResult ResetPassword(ResetPasswordRequest request)
+        [HttpPost("reset-password-request")]
+        public IActionResult RequestPasswordReset(RequestingPasswordResetRequest request)
         {
             try
             {
-                return Ok();
+                Token token = _loginService.RequestPasswordReset(request);
+
+                return Ok(token);
             }
             catch (Exception exc) { return this.HandleException(exc); }
         }
