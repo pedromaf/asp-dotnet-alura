@@ -68,7 +68,7 @@ namespace UsuariosAPI.Services
             }
         }
 
-        internal Token RequestPasswordReset(ResetPasswordRequest request)
+        internal Token RequestPasswordReset(RequestingPasswordResetRequest request)
         {
             IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == request.Email.ToUpper());
 
