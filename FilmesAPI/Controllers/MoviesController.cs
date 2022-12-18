@@ -7,6 +7,7 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateMovie([FromBody] MovieDTO movieDTO)
         {
             try
@@ -32,9 +34,8 @@ namespace FilmesAPI.Controllers
                 ReadMovieDTO newMovie = _movieService.Create(movieDTO);
 
                 return CreatedAtAction(nameof(GetMovieById), new { newMovie.Id }, newMovie);
-            } 
-            catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch(DbUpdateException exc) { return this.HandleException(exc); }
+            }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet]
@@ -46,8 +47,7 @@ namespace FilmesAPI.Controllers
 
                 return Ok(moviesList);
             }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("{id}")]
@@ -59,12 +59,11 @@ namespace FilmesAPI.Controllers
             
                 return Ok(movie);
             }
-            catch(ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch(ArgumentNullException exc) { return this.HandleException(exc); }
-            catch(ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateMovie(int Id, [FromBody] MovieDTO movie)
         {
             try
@@ -73,14 +72,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(updatedMovie);
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteMovie(int id)
         {
             try
@@ -89,11 +85,7 @@ namespace FilmesAPI.Controllers
 
                 return NoContent();
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }

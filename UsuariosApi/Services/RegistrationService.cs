@@ -13,12 +13,14 @@ namespace UsuariosAPI.Services
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser<int>> _userManager;
         private readonly EmailService _emailService;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public RegistrationService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService)
+        public RegistrationService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService, RoleManager<IdentityRole<int>> roleManager)
         {
             _mapper = mapper;
             _userManager = userManager;
             _emailService = emailService;
+            _roleManager = roleManager;
         }
 
         public void CreateUser(CreateUserDTO userDTO)
@@ -30,7 +32,10 @@ namespace UsuariosAPI.Services
             IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
             IdentityResult creationResult = _userManager.CreateAsync(identityUser, userDTO.Password).Result;
 
-            if(creationResult.Succeeded)
+            IdentityResult roleResult = _roleManager.CreateAsync(new IdentityRole<int>("admin")).Result;
+            IdentityResult roleAsignResult = _userManager.AddToRoleAsync(identityUser, "admin").Result;
+
+            if (creationResult.Succeeded)
             {
                 Task<string> confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
                 EmailConfirmationCode code = new EmailConfirmationCode(confirmationCode.Result);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Net;
 using AutoMapper;
 using FilmesAPI.Controllers;
@@ -7,6 +8,7 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +26,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateAddress([FromBody] AddressDTO addressDTO)
         {
             try
@@ -31,12 +34,12 @@ namespace FilmesAPI.Controllers
                 ReadAddressDTO newAddress = _addressService.Create(addressDTO);
 
                 return CreatedAtAction(nameof(GetAddressById), new { newAddress.Id }, newAddress);
-            } 
-            catch(DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch(DbUpdateException exc) { return this.HandleException(exc); }
+            }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllAddresses()
         {
             try
@@ -45,11 +48,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(addressesList);
             }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAddressById(int Id)
         {
             try
@@ -58,12 +61,11 @@ namespace FilmesAPI.Controllers
             
                 return Ok(requestedAddress);
             }
-            catch(ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch(ArgumentNullException exc) { return this.HandleException(exc); }
-            catch(ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateAddress(int Id, [FromBody] AddressDTO address)
         {
             try
@@ -72,14 +74,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(updatedAddress);
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteAddress(int id)
         {
             try
@@ -88,11 +87,7 @@ namespace FilmesAPI.Controllers
 
                 return NoContent();
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }

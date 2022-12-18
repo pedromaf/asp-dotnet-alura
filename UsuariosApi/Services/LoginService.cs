@@ -30,7 +30,9 @@ namespace UsuariosAPI.Services
 
             Login(request.Username, request.Password, false, false);
 
-            return _tokenService.CreateToken(identityUser);
+            string userRole = _signInManager.UserManager.GetRolesAsync(identityUser).Result.FirstOrDefault();
+
+            return _tokenService.CreateToken(identityUser, userRole);
         }
 
         public Token RequestPasswordReset(RequestingPasswordResetRequest request)

@@ -30,7 +30,6 @@ builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
     .AddDefaultTokenProviders();
 #endregion
 
-
 // AutoMapper initialization.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -48,18 +47,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseCors(c =>
 {
     c.AllowAnyHeader();
     c.AllowAnyMethod();
     c.AllowAnyOrigin();
 });
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

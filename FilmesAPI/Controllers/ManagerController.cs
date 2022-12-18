@@ -2,8 +2,10 @@
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace FilmesAPI.Controllers
 {
@@ -19,6 +21,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateManager([FromBody] MTManagerDTO managerDTO)
         {
             try
@@ -27,11 +30,11 @@ namespace FilmesAPI.Controllers
 
                 return CreatedAtAction(nameof(GetManagerById), new { newManager.Id }, newManager);
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetManagerById(int id)
         {
             try
@@ -40,12 +43,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(manager);
             }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllManagers()
         {
             try
@@ -54,11 +56,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(managersList);
             }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateManager(int id, [FromBody] MTManagerDTO managerDTO)
         {
             try
@@ -67,14 +69,11 @@ namespace FilmesAPI.Controllers
 
                 return Ok(updatedManager);
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteManager(int id)
         {
             try
@@ -83,11 +82,7 @@ namespace FilmesAPI.Controllers
 
                 return NoContent();
             }
-            catch (DbUpdateConcurrencyException exc) { return this.HandleException(exc); }
-            catch (DbUpdateException exc) { return this.HandleException(exc); }
-            catch (ElementNotFoundException exc) { return this.HandleException(exc); }
-            catch (ArgumentNullException exc) { return this.HandleException(exc); }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }
