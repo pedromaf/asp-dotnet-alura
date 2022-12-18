@@ -16,6 +16,7 @@ namespace UsuariosAPI.Util
                 EmailConfirmationNeededException => UnauthorizedResult(controller, exc),
                 InvalidEmailConfirmationCodeException => UnauthorizedResult(controller, exc),
                 UserNotFoundException => BadRequestResult(controller, exc),
+                ResetPasswordFailedException => UnauthorizedResult(controller, exc),
                 _ => InternalServerErrorResult(controller, exc)
             };
         }

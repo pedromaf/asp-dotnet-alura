@@ -5,6 +5,7 @@ using UsuariosAPI.Models.Requests;
 using UsuariosAPI.Models.Exceptions;
 using UsuariosAPI.Models.Entities;
 using System.ComponentModel;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace UsuariosAPI.Services
 {
@@ -23,18 +24,63 @@ namespace UsuariosAPI.Services
 
         public Token UserLogin(LoginRequest request)
         {
-            IdentityUser<int> identityUser = GetIdentityUser(request.Username);
+            IdentityUser<int> identityUser = GetUserByUsername(request.Username);
 
             VerifyIfEmailIsConfirmed(identityUser);
 
             Login(request.Username, request.Password, false, false);
 
-            Token token = _tokenService.CreateToken(identityUser);
-
-            return token;
+            return _tokenService.CreateToken(identityUser);
         }
 
-        private IdentityUser<int> GetIdentityUser(string username)
+        public Token RequestPasswordReset(RequestingPasswordResetRequest request)
+        {
+            IdentityUser<int> identityUser = GetUserByEmail(request.Email);
+
+            if (identityUser == null)
+            {
+                throw new EmailNotRegisteredException();
+            }
+
+            string resetTokenValue = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+
+            return new Token(resetTokenValue);
+        }
+
+        public void ResetPassword(ResetPasswordRequest request)
+        {
+            IdentityUser<int> identityUser = GetUserByEmail(request.Email);
+            IdentityResult identityResult = _signInManager.UserManager.ResetPasswordAsync(identityUser, request.Token, request.Password).Result;
+
+            if (!identityResult.Succeeded)
+            {
+                throw new ResetPasswordFailedException();
+            }
+        }
+
+        private void Login(string username, string password, bool isPersistent, bool lockoutOnFailure)
+        {
+            Task<SignInResult> resultIdentity = _signInManager.PasswordSignInAsync(username, password, isPersistent, lockoutOnFailure);
+
+            if (!resultIdentity.Result.Succeeded)
+            {
+                throw new UserLoginUnauthorizedException();
+            }
+        }
+
+        private IdentityUser<int> GetUserByEmail(string email)
+        {
+            IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == email.ToUpper());
+
+            if (identityUser == null)
+            {
+                throw new EmailNotRegisteredException();
+            }
+
+            return identityUser;
+        }
+
+        private IdentityUser<int> GetUserByUsername(string username)
         {
             IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(
                         user => user.NormalizedUserName == username.ToUpper()
@@ -56,32 +102,6 @@ namespace UsuariosAPI.Services
             {
                 throw new EmailConfirmationNeededException();
             }
-        }
-
-        private void Login(string username, string password, bool isPersistent, bool lockoutOnFailure)
-        {
-            Task<SignInResult> resultIdentity = _signInManager.PasswordSignInAsync(username, password, isPersistent, lockoutOnFailure);
-
-            if (!resultIdentity.Result.Succeeded)
-            {
-                throw new UserLoginUnauthorizedException();
-            }
-        }
-
-        internal Token RequestPasswordReset(RequestingPasswordResetRequest request)
-        {
-            IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == request.Email.ToUpper());
-
-            if (identityUser == null)
-            {
-                throw new EmailNotRegisteredException();
-            }
-
-            string resetTokenValue = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
-
-            Token token = new Token(resetTokenValue);
-
-            return token;
         }
     }
 }

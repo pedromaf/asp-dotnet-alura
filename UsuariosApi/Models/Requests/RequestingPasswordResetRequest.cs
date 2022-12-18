@@ -2,7 +2,7 @@
 
 namespace UsuariosAPI.Models.Requests
 {
-    public class ResetPasswordRequest
+    public class RequestingPasswordResetRequest
     {
         [Required]
         public string Email { get; set; }

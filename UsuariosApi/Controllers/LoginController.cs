@@ -40,5 +40,17 @@ namespace UsuariosAPI.Controllers
             }
             catch (Exception exc) { return this.HandleException(exc); }
         }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword(ResetPasswordRequest request)
+        {
+            try
+            {
+                _loginService.ResetPassword(request);
+
+                return Ok();
+            }
+            catch (Exception exc) { return this.HandleException(exc); }
+        }
     }
 }
