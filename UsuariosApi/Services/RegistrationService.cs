@@ -23,6 +23,8 @@ namespace UsuariosAPI.Services
 
         public void CreateUser(CreateUserDTO userDTO)
         {
+            VerifyEmailDuplicity(userDTO.Email);
+
             bool emailSent = false;
             User newUser = _mapper.Map<User>(userDTO);
             IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
@@ -47,6 +49,14 @@ namespace UsuariosAPI.Services
                 IdentityResult deleteResult = _userManager.DeleteAsync(identityUser).Result;
 
                 throw new EmailServiceErrorException();
+            }
+        }
+
+        private void VerifyEmailDuplicity(string email)
+        {
+            if (_userManager.Users.Any(user => user.NormalizedEmail == email.ToUpper()))
+            {
+                throw new EmailAlreadyInUseException();
             }
         }
 

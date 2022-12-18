@@ -14,5 +14,6 @@ namespace UsuariosAPI.Resources
         internal const string INVALID_EMAIL_CONFIRMATION_CODE = "Invalid email confirmation code.";
         internal const string EMAIL_SERVICE_INTERNAL_ERROR = "An error has occurred in attempt to send an account confirmation email.";
         internal const string RESET_PASSWORD_FAILED = "Reset password attempt failed.";
+        internal const string EMAIL_ALREADY_IN_USE = "This email is already in use.";
     }
 }
