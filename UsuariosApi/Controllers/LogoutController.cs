@@ -25,7 +25,7 @@ namespace UsuariosAPI.Controllers
 
                 return Ok();
             }
-            catch(UserLogoutNotPerformedException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }

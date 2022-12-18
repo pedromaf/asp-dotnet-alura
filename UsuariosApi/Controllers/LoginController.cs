@@ -28,9 +28,18 @@ namespace UsuariosAPI.Controllers
 
                 return Ok(token);
             }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
-            catch (UserLoginUnauthorizedException exc) { return this.HandleException(exc); }
-            catch (EmailConfirmationNeededException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
+        }
+
+        [HttpPost]
+        [Route("/reset-password")]
+        public IActionResult ResetPassword(ResetPasswordRequest request)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }

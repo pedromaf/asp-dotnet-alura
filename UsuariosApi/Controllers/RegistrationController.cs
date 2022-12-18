@@ -28,10 +28,7 @@ namespace UsuariosAPI.Controllers
 
                 return Ok();
             }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
-            catch (AggregateException exc) { return this.HandleException(exc); }
-            catch (UserRegistrationFailedException exc) { return this.HandleException(exc); }
-            catch (EmailServiceErrorException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
 
         [HttpGet("/activate")]
@@ -43,10 +40,7 @@ namespace UsuariosAPI.Controllers
 
                 return Ok();
             }
-            catch (ArgumentException exc) { return this.HandleException(exc); }
-            catch (AggregateException exc) { return this.HandleException(exc); }
-            catch (UserNotFoundException exc) { return this.HandleException(exc); }
-            catch (InvalidEmailConfirmationCodeException exc) { return this.HandleException(exc); }
+            catch (Exception exc) { return this.HandleException(exc); }
         }
     }
 }
