@@ -32,9 +32,6 @@ namespace UsuariosAPI.Services
             IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
             IdentityResult creationResult = _userManager.CreateAsync(identityUser, userDTO.Password).Result;
 
-            IdentityResult roleResult = _roleManager.CreateAsync(new IdentityRole<int>("admin")).Result;
-            IdentityResult roleAsignResult = _userManager.AddToRoleAsync(identityUser, "admin").Result;
-
             if (creationResult.Succeeded)
             {
                 Task<string> confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
