@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddUserSecrets<Program>();
 
-// Add services to the container.
 builder.Services.AddControllers();
 
 #region Service Layer dependency injection
@@ -30,7 +29,6 @@ builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
     .AddDefaultTokenProviders();
 #endregion
 
-// AutoMapper initialization.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddCors();
