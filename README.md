@@ -12,3 +12,8 @@ Some of the code practices used are unrelated to the courses, such as:
 * Minimal code repetition
 
 These characteristics have been learned through other studies and practices over time.
+
+## Certificate of Completion
+Link: https://cursos.alura.com.br/degree/certificate/3cdcb0ba-e0a9-4123-ba26-a576a1124c01
+
+![image](https://user-images.githubusercontent.com/20803889/208586697-4f54829f-dad9-4e65-8457-69baeb76a659.png)
