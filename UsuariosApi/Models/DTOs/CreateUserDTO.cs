@@ -18,5 +18,8 @@ namespace UsuariosAPI.Models.DTOs
         [Required]
         [Compare("Password", ErrorMessage = Messages.USER_CONFIRMATION_PASSWORD_MATCH_ERROR)]
         public string ConfirmationPassword { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
     }
 }

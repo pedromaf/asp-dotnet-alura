@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using UsuariosAPI.Models.Entities;
 using UsuariosAPI.Models.Exceptions;
 
 namespace UsuariosAPI.Services
 {
     public class LogoutService
     {
-        private readonly SignInManager<IdentityUser<int>> _signInManager;
+        private readonly SignInManager<CustomIdentityUser> _signInManager;
 
-        public LogoutService(SignInManager<IdentityUser<int>> signInManager)
+        public LogoutService(SignInManager<CustomIdentityUser> signInManager)
         {
             _signInManager = signInManager;
         }

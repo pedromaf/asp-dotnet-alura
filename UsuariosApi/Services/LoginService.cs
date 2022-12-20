@@ -11,11 +11,11 @@ namespace UsuariosAPI.Services
 {
     public class LoginService
     {
-        private readonly SignInManager<IdentityUser<int>> _signInManager;
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly SignInManager<CustomIdentityUser> _signInManager;
+        private readonly UserManager<CustomIdentityUser> _userManager;
         private readonly TokenService _tokenService;
 
-        public LoginService(SignInManager<IdentityUser<int>> signInManager, UserManager<IdentityUser<int>> userManager, TokenService tokenService)
+        public LoginService(SignInManager<CustomIdentityUser> signInManager, UserManager<CustomIdentityUser> userManager, TokenService tokenService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -24,7 +24,7 @@ namespace UsuariosAPI.Services
 
         public Token UserLogin(LoginRequest request)
         {
-            IdentityUser<int> identityUser = GetUserByUsername(request.Username);
+            CustomIdentityUser identityUser = GetUserByUsername(request.Username);
 
             VerifyIfEmailIsConfirmed(identityUser);
 
@@ -37,7 +37,7 @@ namespace UsuariosAPI.Services
 
         public Token RequestPasswordReset(RequestingPasswordResetRequest request)
         {
-            IdentityUser<int> identityUser = GetUserByEmail(request.Email);
+            CustomIdentityUser identityUser = GetUserByEmail(request.Email);
 
             if (identityUser == null)
             {
@@ -51,7 +51,7 @@ namespace UsuariosAPI.Services
 
         public void ResetPassword(ResetPasswordRequest request)
         {
-            IdentityUser<int> identityUser = GetUserByEmail(request.Email);
+            CustomIdentityUser identityUser = GetUserByEmail(request.Email);
             IdentityResult identityResult = _signInManager.UserManager.ResetPasswordAsync(identityUser, request.Token, request.Password).Result;
 
             if (!identityResult.Succeeded)
@@ -70,9 +70,9 @@ namespace UsuariosAPI.Services
             }
         }
 
-        private IdentityUser<int> GetUserByEmail(string email)
+        private CustomIdentityUser GetUserByEmail(string email)
         {
-            IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == email.ToUpper());
+            CustomIdentityUser identityUser = _signInManager.UserManager.Users.FirstOrDefault(user => user.NormalizedEmail == email.ToUpper());
 
             if (identityUser == null)
             {
@@ -82,9 +82,9 @@ namespace UsuariosAPI.Services
             return identityUser;
         }
 
-        private IdentityUser<int> GetUserByUsername(string username)
+        private CustomIdentityUser GetUserByUsername(string username)
         {
-            IdentityUser<int> identityUser = _signInManager.UserManager.Users.FirstOrDefault(
+            CustomIdentityUser identityUser = _signInManager.UserManager.Users.FirstOrDefault(
                         user => user.NormalizedUserName == username.ToUpper()
                     );
 
@@ -96,7 +96,7 @@ namespace UsuariosAPI.Services
             return identityUser;
         }
 
-        private void VerifyIfEmailIsConfirmed(IdentityUser<int> user)
+        private void VerifyIfEmailIsConfirmed(CustomIdentityUser user)
         {
             var isEmailConfirmed = _userManager.IsEmailConfirmedAsync(user);
 

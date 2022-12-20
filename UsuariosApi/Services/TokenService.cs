@@ -9,7 +9,7 @@ namespace UsuariosAPI.Services
 {
     public class TokenService
     {
-        public Token CreateToken(IdentityUser<int> user, string role)
+        public Token CreateToken(CustomIdentityUser user, string role)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             
@@ -18,6 +18,7 @@ namespace UsuariosAPI.Services
                 new Claim("username", user.UserName),
                 new Claim("id", user.Id.ToString()),
                 new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToString())
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(

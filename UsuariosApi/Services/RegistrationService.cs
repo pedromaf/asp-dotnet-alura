@@ -11,25 +11,23 @@ namespace UsuariosAPI.Services
     public class RegistrationService
     {
         private readonly IMapper _mapper;
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly UserManager<CustomIdentityUser> _userManager;
         private readonly EmailService _emailService;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public RegistrationService(IMapper mapper, UserManager<IdentityUser<int>> userManager, EmailService emailService, RoleManager<IdentityRole<int>> roleManager)
+        public RegistrationService(IMapper mapper, UserManager<CustomIdentityUser> userManager, EmailService emailService)
         {
             _mapper = mapper;
             _userManager = userManager;
             _emailService = emailService;
-            _roleManager = roleManager;
         }
 
         public void CreateUser(CreateUserDTO userDTO)
         {
             VerifyEmailDuplicity(userDTO.Email);
 
-            bool emailSent = false;
+            bool emailSent;
             User newUser = _mapper.Map<User>(userDTO);
-            IdentityUser<int> identityUser = _mapper.Map<IdentityUser<int>>(newUser);
+            CustomIdentityUser identityUser = _mapper.Map<CustomIdentityUser>(newUser);
             IdentityResult creationResult = _userManager.CreateAsync(identityUser, userDTO.Password).Result;
 
             _userManager.AddToRoleAsync(identityUser, "regular-user");
@@ -66,7 +64,7 @@ namespace UsuariosAPI.Services
 
         public void ActivateAccount(ActivateAccountRequest request)
         {
-            IdentityUser<int> identityUser = GetIdentityUserById(request.UserId);
+            CustomIdentityUser identityUser = GetIdentityUserById(request.UserId);
             IdentityResult identityResult = _userManager.ConfirmEmailAsync(identityUser, request.ActivationCode).Result;
 
             if(!identityResult.Succeeded)
@@ -75,9 +73,9 @@ namespace UsuariosAPI.Services
             }
         }
 
-        private IdentityUser<int> GetIdentityUserById(int id)
+        private CustomIdentityUser GetIdentityUserById(int id)
         {
-            IdentityUser<int> identityUser = _userManager.Users.FirstOrDefault(user => user.Id == id);
+            CustomIdentityUser identityUser = _userManager.Users.FirstOrDefault(user => user.Id == id);
 
             if (identityUser == null)
             {
