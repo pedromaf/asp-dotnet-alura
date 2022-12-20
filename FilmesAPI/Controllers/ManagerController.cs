@@ -34,7 +34,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetManagerById(int id)
         {
             try
@@ -47,7 +47,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetAllManagers()
         {
             try

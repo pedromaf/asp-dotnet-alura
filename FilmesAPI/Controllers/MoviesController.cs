@@ -39,6 +39,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, regular-user", Policy = "min-age")]
         public IActionResult GetAllMovies([FromQuery] int? ageRating = null)
         {
             try
@@ -51,6 +52,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, regular-user", Policy = "min-age")]
         public IActionResult GetMovieById(int Id)
         {
             try

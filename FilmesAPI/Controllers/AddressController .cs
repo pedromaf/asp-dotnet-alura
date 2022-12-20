@@ -39,7 +39,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetAllAddresses()
         {
             try
@@ -52,7 +52,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetAddressById(int Id)
         {
             try

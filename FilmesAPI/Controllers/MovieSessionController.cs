@@ -34,6 +34,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetAllMovieSessions()
         {
             try
@@ -46,6 +47,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetMovieSessionById(int id)
         {
             try

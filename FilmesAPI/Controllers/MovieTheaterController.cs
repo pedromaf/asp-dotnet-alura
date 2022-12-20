@@ -35,6 +35,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetAllMovieTheaters([FromQuery] string? movieName = null)
         {
             try
@@ -47,6 +48,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, regular-user")]
         public IActionResult GetMovieTheaterById(int id)
         {
             try

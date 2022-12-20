@@ -1,6 +1,8 @@
+using FilmesAPI.Authorization;
 using FilmesAPI.Data;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -8,8 +10,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddCors();
 
-#region Service layer dependency injection.
+#region Service layer.
 builder.Services.AddScoped<MoviesService>();
 builder.Services.AddScoped<MovieTheaterService>();
 builder.Services.AddScoped<MovieSessionService>();
@@ -45,14 +48,26 @@ builder.Services.AddAuthentication(auth =>
 });
 #endregion
 
-// AutoMapper initialization.
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+#region Authorization
+builder.Services.AddSingleton<IAuthorizationHandler, MinAgeHandler>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("min-age", policy =>
+    {
+        policy.Requirements.Add(new MinAgeRequirement(18));
+    });
+});
+#endregion
+
+#region AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+#endregion
+
+#region Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddCors();
+#endregion
 
 var app = builder.Build();
 
