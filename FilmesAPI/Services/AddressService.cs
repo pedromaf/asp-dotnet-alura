@@ -4,18 +4,19 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
+using FilmesAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmesAPI.Services
 {
     public class AddressService
     {
-        private readonly FilmesContext _DbContext;
+        private readonly IAddressRepository _repository;
         private readonly IMapper _mapper;
 
-        public AddressService(FilmesContext context, IMapper mapper)
+        public AddressService(IAddressRepository repository, IMapper mapper)
         {
-            _DbContext = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -23,8 +24,7 @@ namespace FilmesAPI.Services
         {
             Address address = _mapper.Map<Address>(addressDTO);
 
-            _DbContext.Address.Add(address);
-            _DbContext.SaveChanges();
+            _repository.Add(address);
 
             ReadAddressDTO readDTO = _mapper.Map<ReadAddressDTO>(address);
 
@@ -33,7 +33,7 @@ namespace FilmesAPI.Services
 
         public List<ReadAddressDTO> GetAll()
         {
-            List<Address> addressesList = _DbContext.Address.ToList();
+            List<Address> addressesList = _repository.GetAll();
             List<ReadAddressDTO> readDTOList = _mapper.Map<List<ReadAddressDTO>>(addressesList);
 
             return readDTOList;
@@ -41,7 +41,7 @@ namespace FilmesAPI.Services
 
         public ReadAddressDTO GetById(int id)
         {
-            Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);
+            Address address = _repository.GetById(id);
             
             if(address == null)
             {
@@ -55,7 +55,7 @@ namespace FilmesAPI.Services
 
         public ReadAddressDTO Update(int id, AddressDTO addressDTO)
         {
-            Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);
+            Address address = _repository.GetById(id);
 
             if (address == null)
             {
@@ -64,7 +64,7 @@ namespace FilmesAPI.Services
 
             _mapper.Map(addressDTO, address);
 
-            _DbContext.SaveChanges();
+            _repository.Update(address);
 
             ReadAddressDTO readDTO = _mapper.Map<ReadAddressDTO>(address);
 
@@ -73,15 +73,14 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            Address address = _DbContext.Address.FirstOrDefault(m => m.Id == id);
+            Address address = _repository.GetById(id);
 
             if (address == null)
             {
                 throw new ElementNotFoundException(ElementType.ADDRESS);
             }
 
-            _DbContext.Remove(address);
-            _DbContext.SaveChanges();
+            _repository.Delete(address);
         }
     }
 }

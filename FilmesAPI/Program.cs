@@ -1,5 +1,8 @@
 using FilmesAPI.Authorization;
 using FilmesAPI.Data;
+using FilmesAPI.Models.Entities;
+using FilmesAPI.Repositories;
+using FilmesAPI.Repositories.Interfaces;
 using FilmesAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +21,14 @@ builder.Services.AddScoped<MovieTheaterService>();
 builder.Services.AddScoped<MovieSessionService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<ManagerService>();
+#endregion
+
+#region Repository layer.
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieTheaterRepository, MovieTheaterRepository>();
+builder.Services.AddScoped<IMovieSessionRepository, MovieSessionRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 #endregion
 
 #region DB Configuration

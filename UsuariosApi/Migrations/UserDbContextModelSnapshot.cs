@@ -48,15 +48,15 @@ namespace UsuariosAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 99999,
-                            ConcurrencyStamp = "f4c7209c-4800-4b0f-b4cd-38b78c5cf972",
+                            Id = 1,
+                            ConcurrencyStamp = "0e6ba5c4-0da3-4d64-9907-ed682388a7bc",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = 99998,
-                            ConcurrencyStamp = "f61040ec-cfed-4881-a045-0beb8323be4c",
+                            Id = 2,
+                            ConcurrencyStamp = "15049194-7192-40e6-934a-c0694ab8aff4",
                             Name = "regular-user",
                             NormalizedName = "REGULAR-USER"
                         });
@@ -144,8 +144,8 @@ namespace UsuariosAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 99999,
-                            RoleId = 99999
+                            UserId = 1,
+                            RoleId = 1
                         });
                 });
 
@@ -238,18 +238,18 @@ namespace UsuariosAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 99999,
+                            Id = 1,
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "524d9191-e993-468c-8b4e-9085b00cdda1",
+                            ConcurrencyStamp = "327bc99f-8379-4cd6-a592-59afe05132bf",
                             Email = "admin@mail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFqBD6WbYU31StYUPlAMRz3uTYg6tdpgBAUQlVn6eUkMU9TbUvdXJQEfq5Bcf5a1ZQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDY5oJVvF1FrxYwhrPW5OjoEGpnKOthzvbLbKtzH5spwMCZJkOR7QYbJ3yR2TMyioQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b8fdb877-12b3-4d87-b849-bef950bbcfb3",
+                            SecurityStamp = "89c6b8ce-67f5-476a-92db-ae69b6d273f5",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

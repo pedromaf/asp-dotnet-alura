@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
-using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
+using FilmesAPI.Repositories.Interfaces;
 
 namespace FilmesAPI.Services
 {
     public class ManagerService
     {
-        private readonly FilmesContext _DbContext;
+        private readonly IManagerRepository _repository;
         private readonly IMapper _mapper;
 
-        public ManagerService(FilmesContext context, IMapper mapper)
+        public ManagerService(IManagerRepository repository, IMapper mapper)
         {
-            _DbContext = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -22,8 +22,7 @@ namespace FilmesAPI.Services
         {
             MTManager manager = _mapper.Map<MTManager>(managerDTO);
 
-            _DbContext.Add(manager);
-            _DbContext.SaveChanges();
+            _repository.Add(manager);
 
             ReadMTManagerDTO readDTO = _mapper.Map<ReadMTManagerDTO>(manager);
 
@@ -32,7 +31,7 @@ namespace FilmesAPI.Services
 
         public List<ReadMTManagerDTO> GetAll()
         {
-            List<MTManager> managersList = _DbContext.Managers.ToList();
+            List<MTManager> managersList = _repository.GetAll();
             List<ReadMTManagerDTO> readDTOList = _mapper.Map<List<ReadMTManagerDTO>>(managersList);
 
             return readDTOList;
@@ -40,7 +39,7 @@ namespace FilmesAPI.Services
 
         public ReadMTManagerDTO GetById(int id)
         {
-            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _repository.GetById(id);
 
             if(manager == null)
             {
@@ -54,7 +53,7 @@ namespace FilmesAPI.Services
 
         public ReadMTManagerDTO Update(int id, MTManagerDTO managerDTO)
         {
-            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _repository.GetById(id);
 
             if(manager == null)
             {
@@ -63,7 +62,7 @@ namespace FilmesAPI.Services
 
             _mapper.Map(managerDTO, manager);
 
-            _DbContext.SaveChanges();
+            _repository.Update(manager);
 
             ReadMTManagerDTO readDTO = _mapper.Map<ReadMTManagerDTO>(manager);
 
@@ -72,15 +71,14 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            MTManager manager = _DbContext.Managers.FirstOrDefault(manager => manager.Id == id);
+            MTManager manager = _repository.GetById(id);
 
             if (manager == null)
             {
                 throw new ElementNotFoundException(ElementType.MANAGER);
             }
 
-            _DbContext.Remove(manager);
-            _DbContext.SaveChanges();
+            _repository.Delete(manager);
         }
     }
 }

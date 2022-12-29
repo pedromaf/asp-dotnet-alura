@@ -4,17 +4,18 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
+using FilmesAPI.Repositories.Interfaces;
 
 namespace FilmesAPI.Services
 {
     public class MovieSessionService
     {
-        private readonly FilmesContext _DbContext;
+        private readonly IMovieSessionRepository _repository;
         private readonly IMapper _mapper;
 
-        public MovieSessionService(FilmesContext context, IMapper mapper)
+        public MovieSessionService(IMovieSessionRepository repository, IMapper mapper)
         {
-            _DbContext = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -22,8 +23,7 @@ namespace FilmesAPI.Services
         {
             MovieSession movieSession = _mapper.Map<MovieSession>(movieSessionDTO);
 
-            _DbContext.Add(movieSession);
-            _DbContext.SaveChanges();
+            _repository.Add(movieSession);
 
             ReadMovieSessionDTO readDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
 
@@ -32,7 +32,7 @@ namespace FilmesAPI.Services
 
         public List<ReadMovieSessionDTO> GetAll()
         {
-            List<MovieSession> movieSessionsList = _DbContext.MovieSessions.ToList();
+            List<MovieSession> movieSessionsList = _repository.GetAll();
             List<ReadMovieSessionDTO> readDTOList = _mapper.Map<List<ReadMovieSessionDTO>>(movieSessionsList);
 
             return readDTOList;
@@ -40,7 +40,7 @@ namespace FilmesAPI.Services
 
         public ReadMovieSessionDTO GetById(int id)
         {
-            MovieSession movieSession = _DbContext.MovieSessions.FirstOrDefault(ms => ms.Id == id);
+            MovieSession movieSession = _repository.GetById(id);
         
             if(movieSession == null)
             {
@@ -54,16 +54,16 @@ namespace FilmesAPI.Services
 
         public ReadMovieSessionDTO Update(int id, MovieSessionDTO movieSessionDTO)
         {
-            MovieSession movieSession = _DbContext.MovieSessions.FirstOrDefault(ms => ms.Id == id);
+            MovieSession movieSession = _repository.GetById(id);
 
-            if(movieSession == null)
+            if (movieSession == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIESESSION);
             }
 
             _mapper.Map(movieSessionDTO, movieSession);
 
-            _DbContext.SaveChanges();
+            _repository.Update(movieSession);
 
             ReadMovieSessionDTO readDTO = _mapper.Map<ReadMovieSessionDTO>(movieSession);
 
@@ -72,15 +72,14 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            MovieSession movieSession = _DbContext.MovieSessions.FirstOrDefault(ms => ms.Id == id);
+            MovieSession movieSession = _repository.GetById(id);
 
             if(movieSession == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIESESSION);
             }
 
-            _DbContext.Remove(movieSession);
-            _DbContext.SaveChanges();
+            _repository.Delete(movieSession);
         }
     }
 }

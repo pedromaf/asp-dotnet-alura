@@ -4,18 +4,19 @@ using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
+using FilmesAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmesAPI.Services
 {
     public class MovieTheaterService
     {
-        private readonly FilmesContext _DbContext;
+        private readonly IMovieTheaterRepository _repository;
         private readonly IMapper _mapper;
 
-        public MovieTheaterService(FilmesContext dbContext, IMapper mapper)
+        public MovieTheaterService(IMovieTheaterRepository repository, IMapper mapper)
         {
-            _DbContext = dbContext;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -25,17 +26,16 @@ namespace FilmesAPI.Services
 
             MovieTheater movieTheater = _mapper.Map<MovieTheater>(movieTheaterDTO);
 
-            _DbContext.Add(movieTheater);
-            _DbContext.SaveChanges();
+            _repository.Add(movieTheater);
 
             ReadMovieTheaterDTO readDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
 
             return readDTO;
         } 
 
-        public List<ReadMovieTheaterDTO> GetAll(string movieName)
+        public List<ReadMovieTheaterDTO> GetAll(string? movieName)
         {
-            List<MovieTheater> movieTheatersList = _DbContext.MovieTheaters.ToList();
+            List<MovieTheater> movieTheatersList = _repository.GetAll();
 
             if(movieName != null)
             {
@@ -53,9 +53,9 @@ namespace FilmesAPI.Services
 
         public ReadMovieTheaterDTO GetById(int id)
         {
-            MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(m => m.Id == id);
+            MovieTheater movieTheater = _repository.GetById(id);
 
-            if(movieTheater == null)
+            if (movieTheater == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIETHEATER);
             }
@@ -67,7 +67,7 @@ namespace FilmesAPI.Services
 
         public ReadMovieTheaterDTO Update(int id, MovieTheaterDTO movieTheaterDTO)
         {
-            MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(m => m.Id == id);
+            MovieTheater movieTheater = _repository.GetById(id);
 
             if (movieTheater == null)
             {
@@ -81,7 +81,7 @@ namespace FilmesAPI.Services
 
             _mapper.Map(movieTheaterDTO, movieTheater);
 
-            _DbContext.SaveChanges();
+            _repository.Update(movieTheater);
 
             ReadMovieTheaterDTO readDTO = _mapper.Map<ReadMovieTheaterDTO>(movieTheater);
 
@@ -90,22 +90,19 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            MovieTheater movieTheater = _DbContext.MovieTheaters.FirstOrDefault(mt => mt.Id == id);
+            MovieTheater movieTheater = _repository.GetById(id);
 
             if(movieTheater == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIETHEATER);
             }
 
-            _DbContext.Remove(movieTheater);
-            _DbContext.SaveChanges();
+            _repository.Delete(movieTheater);
         }
 
         private void VerifyAddressAvailability(int addressId)
         {
-            MovieTheater addressRelatedMovieTheater = _DbContext.MovieTheaters.FirstOrDefault(movieTheater => movieTheater.AddressId == addressId);
-
-            if(addressRelatedMovieTheater != null)
+            if(_repository.VerifyIfAddressIsBeingUsed(addressId))
             {
                 throw new ElementBeingUsedException(ElementType.ADDRESS);
             }

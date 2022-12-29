@@ -1,6 +1,5 @@
 ﻿using FilmesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace FilmesAPI.Models.Entities
 {

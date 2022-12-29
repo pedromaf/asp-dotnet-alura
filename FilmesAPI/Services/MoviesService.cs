@@ -1,21 +1,20 @@
 ﻿using AutoMapper;
-using FilmesAPI.Data;
 using FilmesAPI.Exceptions;
 using FilmesAPI.Models.DTOs;
 using FilmesAPI.Models.Entities;
 using FilmesAPI.Models.Enums;
-using Microsoft.EntityFrameworkCore;
+using FilmesAPI.Repositories.Interfaces;
 
 namespace FilmesAPI.Services
 {
     public class MoviesService
     {
-        private readonly FilmesContext _DbContext;
+        private readonly IMovieRepository _repository;
         private readonly IMapper _mapper;
 
-        public MoviesService(FilmesContext context, IMapper mapper)
+        public MoviesService(IMovieRepository repository, IMapper mapper)
         {
-            _DbContext = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -23,8 +22,7 @@ namespace FilmesAPI.Services
         {
             Movie movie = _mapper.Map<Movie>(movieDTO);
 
-            _DbContext.Movies.Add(movie);
-            _DbContext.SaveChanges();
+            _repository.Add(movie);
 
             ReadMovieDTO readDTO = _mapper.Map<ReadMovieDTO>(movie);
 
@@ -33,14 +31,11 @@ namespace FilmesAPI.Services
 
         public List<ReadMovieDTO> GetAll(int? ageRating)
         {
-            List<Movie> movieList = new();
+            List<Movie> movieList = _repository.GetAll();
 
             if (ageRating != null)
             {
-                movieList = _DbContext.Movies.Where(movie => movie.AgeRating <= ageRating).ToList();
-            } else
-            {
-                movieList = _DbContext.Movies.ToList();
+                movieList.RemoveAll(movie => movie.AgeRating > ageRating);
             }
 
             List<ReadMovieDTO> readDTOList = _mapper.Map<List<ReadMovieDTO>>(movieList);
@@ -50,7 +45,7 @@ namespace FilmesAPI.Services
 
         public ReadMovieDTO GetById(int id)
         {
-            Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
+            Movie movie = _repository.GetById(id);
             
             if(movie == null)
             {
@@ -64,7 +59,7 @@ namespace FilmesAPI.Services
 
         public ReadMovieDTO Update(int id, MovieDTO movieDTO)
         {
-            Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
+            Movie movie = _repository.GetById(id);
 
             if (movie == null)
             {
@@ -73,7 +68,7 @@ namespace FilmesAPI.Services
 
             _mapper.Map(movieDTO, movie);
 
-            _DbContext.SaveChanges();
+            _repository.Update(movie);
 
             ReadMovieDTO readDTO = _mapper.Map<ReadMovieDTO>(movie);
 
@@ -82,15 +77,14 @@ namespace FilmesAPI.Services
 
         public void Delete(int id)
         {
-            Movie movie = _DbContext.Movies.FirstOrDefault(m => m.Id == id);
+            Movie movie = _repository.GetById(id);
 
             if (movie == null)
             {
                 throw new ElementNotFoundException(ElementType.MOVIE);
             }
 
-            _DbContext.Remove(movie);
-            _DbContext.SaveChanges();
+            _repository.Delete(movie);
         }
     }
 }
