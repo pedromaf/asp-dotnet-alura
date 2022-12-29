@@ -1,6 +1,5 @@
 using FilmesAPI.Authorization;
 using FilmesAPI.Data;
-using FilmesAPI.Models.Entities;
 using FilmesAPI.Repositories;
 using FilmesAPI.Repositories.Interfaces;
 using FilmesAPI.Services;
