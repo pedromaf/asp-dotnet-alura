@@ -10,6 +10,7 @@ Some of the code practices used are unrelated to the courses, such as:
 * Directory architecture (application layers)
 * Code responsibilities encapsulation
 * Minimal code repetition
+* Unit tests using Xunit and Moq
 
 These characteristics have been learned through other studies and practices over time.
 
